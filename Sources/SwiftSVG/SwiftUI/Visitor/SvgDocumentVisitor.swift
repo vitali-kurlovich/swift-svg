@@ -40,9 +40,7 @@ extension SvgDocumentVisitor {
     func visit(with context: GraphicsContext, tag: SvgTag) {
         var context = context
 
-        let transform = tag.transform
-
-        if transform.isIdentity == false {
+        if let transform = tag.transform {
             context.transform = context.transform.concatenating(transform)
         }
 
@@ -56,9 +54,7 @@ extension SvgDocumentVisitor {
     func visit(with context: GraphicsContext, tag: GTag) {
         var context = context
 
-        let transform = tag.transform
-
-        if transform.isIdentity == false {
+        if let transform = tag.transform {
             context.transform = context.transform.concatenating(transform)
         }
 
@@ -72,9 +68,7 @@ extension SvgDocumentVisitor {
     func visit(with context: GraphicsContext, tag: PathTag) {
         var context = context
 
-        let transform = tag.transform
-
-        if transform.isIdentity == false {
+        if let transform = tag.transform {
             context.transform = context.transform.concatenating(transform)
         }
 

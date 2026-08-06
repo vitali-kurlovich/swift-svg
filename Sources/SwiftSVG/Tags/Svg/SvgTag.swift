@@ -15,3 +15,9 @@ public struct SvgTag: SVGMutableElement, Sendable {
         self.childs = childs
     }
 }
+
+public extension SvgTag {
+    var version: String? {
+        attributes["version"]
+    }
+}

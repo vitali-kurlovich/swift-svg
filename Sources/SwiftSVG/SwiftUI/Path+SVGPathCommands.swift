@@ -2,7 +2,6 @@
 //  Created by Kurlovich Vitali on 8/5/26.
 //
 
-import SwiftUI
 import struct SwiftUI.Path
 
 public extension Path {

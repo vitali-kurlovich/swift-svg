@@ -7,9 +7,11 @@ import struct Foundation.CharacterSet
 struct StringScanner<S: StringProtocol> {
     let string: S
 
-    var startIndex: S.Index
-    var isFinish: Bool
+    private(set) var startIndex: S.Index
 
+    private(set) var isFinish: Bool
+
+    @inlinable
     init(
         _ string: S,
     ) {
@@ -20,10 +22,12 @@ struct StringScanner<S: StringProtocol> {
 }
 
 extension StringScanner {
+    @inlinable
     var isEnd: Bool {
         startIndex == endIndex
     }
 
+    @inlinable
     var endIndex: S.Index {
         string.endIndex
     }
@@ -34,6 +38,7 @@ extension StringScanner {
 }
 
 extension StringScanner {
+    @inlinable
     mutating func skip(in set: CharacterSet) -> S.SubSequence {
         let begin = startIndex
 
@@ -59,6 +64,7 @@ extension StringScanner {
         return string[begin ..< startIndex]
     }
 
+    @inlinable
     mutating func nextChar() -> Character? {
         if isFinish {
             return nil

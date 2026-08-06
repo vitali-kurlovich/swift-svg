@@ -5,7 +5,8 @@
 import struct CoreGraphics.CGFloat
 import struct CoreGraphics.CGPoint
 
-extension CGPoint {
+public extension CGPoint {
+    @inlinable
     init(_ p: Point) {
         self.init(x: CGFloat(p.x), y: CGFloat(p.y))
     }

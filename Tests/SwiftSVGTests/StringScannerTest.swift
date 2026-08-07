@@ -123,4 +123,42 @@ struct StringScannerTest {
         #expect(scaner.isFinish == true)
         #expect(scaner.nextChar() == nil)
     }
+
+    @Test
+    func `SkipTo in empty string`() {
+        var scaner = StringScanner("")
+
+        #expect(scaner.skip(to: CharacterSet.decimalDigits) == "")
+
+        #expect(scaner.isEnd == true)
+        #expect(scaner.isFinish == true)
+        #expect(scaner.nextChar() == nil)
+    }
+
+    @Test
+    func `SkipTo in string`() {
+        var scaner = StringScanner("1")
+
+        #expect(scaner.skip(to: CharacterSet.decimalDigits) == "")
+
+        #expect(scaner.isEnd == false)
+        #expect(scaner.isFinish == false)
+        #expect(scaner.nextChar() == "1")
+
+        scaner = StringScanner("A1")
+
+        #expect(scaner.skip(to: CharacterSet.decimalDigits) == "A")
+
+        #expect(scaner.isEnd == false)
+        #expect(scaner.isFinish == false)
+        #expect(scaner.nextChar() == "1")
+
+        scaner = StringScanner("A123BB2")
+
+        #expect(scaner.skip(to: CharacterSet.decimalDigits) == "A")
+
+        #expect(scaner.isEnd == false)
+        #expect(scaner.isFinish == false)
+        #expect(scaner.skip(to: CharacterSet.decimalDigits) == "")
+    }
 }

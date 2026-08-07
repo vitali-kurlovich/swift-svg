@@ -65,6 +65,33 @@ extension StringScanner {
     }
 
     @inlinable
+    mutating func skip(to set: CharacterSet) -> S.SubSequence {
+        let begin = startIndex
+
+        while true {
+            if isFinish {
+                break
+            }
+
+            let unicodeScalar = currentChar.unicodeScalars.first!
+
+            if set.contains(unicodeScalar) {
+                break
+            } else {
+                if isEnd == false {
+                    startIndex = string.index(after: startIndex)
+                }
+
+                isFinish = isEnd
+            }
+        }
+
+        return string[begin ..< startIndex]
+    }
+}
+
+extension StringScanner {
+    @inlinable
     mutating func nextChar() -> Character? {
         if isFinish {
             return nil

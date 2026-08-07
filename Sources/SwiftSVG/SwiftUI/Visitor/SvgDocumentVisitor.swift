@@ -41,7 +41,7 @@ extension SvgDocumentVisitor {
         var context = context
 
         if let transform = tag.transform {
-            context.transform = context.transform.concatenating(transform)
+            context.transform = context.transform.concatenating(.init(transform))
         }
 
         visitor.visit(with: &context, tag: tag)
@@ -55,7 +55,7 @@ extension SvgDocumentVisitor {
         var context = context
 
         if let transform = tag.transform {
-            context.transform = context.transform.concatenating(transform)
+            context.transform = context.transform.concatenating(.init(transform))
         }
 
         visitor.visit(with: &context, tag: tag)
@@ -69,7 +69,7 @@ extension SvgDocumentVisitor {
         var context = context
 
         if let transform = tag.transform {
-            context.transform = context.transform.concatenating(transform)
+            context.transform = context.transform.concatenating(.init(transform))
         }
 
         visitor.visit(with: &context, tag: tag)

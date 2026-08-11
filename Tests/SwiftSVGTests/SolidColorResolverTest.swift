@@ -24,6 +24,57 @@ struct SolidColorResolverTest {
     }
 
     @Test
+    func `rgb()`() {
+        let resolver = SolidColorResolver()
+        #expect(
+            resolver
+                .colorBy(rgb: "rgb(12 54 88)") == SolidColor(
+                    red: UInt8(12),
+                    green: UInt8(54),
+                    blue: UInt8(88),
+                ),
+        )
+
+        #expect(
+            resolver
+                .colorBy(rgb: "rgb(12, 54, 88)") == SolidColor(
+                    red: UInt8(12),
+                    green: UInt8(54),
+                    blue: UInt8(88),
+                ),
+        )
+
+        #expect(
+            resolver
+                .colorBy(rgb: "rgb(25%, 50%, 75%)") == SolidColor(
+                    red: 0.25,
+                    green: 0.5,
+                    blue: 0.75,
+                ),
+        )
+
+        #expect(
+            resolver
+                .colorBy(rgb: "rgb(12 54 88 / 0.75)") == SolidColor(
+                    red: UInt8(12),
+                    green: UInt8(54),
+                    blue: UInt8(88),
+                    alpha: 0.75,
+                ),
+        )
+
+        #expect(
+            resolver
+                .colorBy(rgb: "rgb(12 54 88 / 75%)") == SolidColor(
+                    red: UInt8(12),
+                    green: UInt8(54),
+                    blue: UInt8(88),
+                    alpha: 0.75,
+                ),
+        )
+    }
+
+    @Test
     func `incorrect format`() {
         let resolver = SolidColorResolver()
         #expect(resolver.colorBy(name: "$red") == nil)
@@ -43,5 +94,15 @@ struct SolidColorResolverTest {
         #expect(resolver.colorBy(hex: "#ABG") == nil)
 
         #expect(resolver.colorBy(hex: "#ABCD") == nil)
+        
+        
+        #expect(resolver.colorBy(rgb: "rgb(1, 2)") == nil)
+        
+        #expect(resolver.colorBy(rgb: "rgb (10 20 30)") == nil)
+        
+        #expect(resolver.colorBy(rgb: "rgb(10 20# 30)") == nil)
+        
+        #expect(resolver.colorBy(rgb: "rgb(20 30 40 / 0.5) ") == nil)
+        #expect(resolver.colorBy(rgb: " rgb(20 30 40 / 0.5)") == nil)
     }
 }

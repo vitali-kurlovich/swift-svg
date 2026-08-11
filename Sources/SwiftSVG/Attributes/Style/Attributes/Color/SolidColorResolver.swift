@@ -7,11 +7,11 @@ public struct SolidColorResolver: Sendable {
 }
 
 public extension SolidColorResolver {
-    func colorBy(name: String) -> SolidColor? {
-        namedColorsStorage[name]
+    func colorBy(name: some StringProtocol) -> SolidColor? {
+        namedColorsStorage[.init(name)]
     }
 
-    func colorBy(hex: String) -> SolidColor? {
+    func colorBy(hex: some StringProtocol) -> SolidColor? {
         guard hex.hasPrefix("#") else {
             return nil
         }
@@ -42,6 +42,55 @@ public extension SolidColorResolver {
             }
 
             return SolidColor(uint32)
+        }
+
+        return nil
+    }
+
+    func colorBy(rgb: some StringProtocol) -> SolidColor? {
+        guard rgb.hasPrefix("rgb("), rgb.hasSuffix(")") else {
+            return nil
+        }
+
+        let components = rgb.dropFirst(4).dropLast(1)
+
+        var iterator = components.split(characters: .svgNumbersSeparator).makeIterator()
+
+        guard let r = iterator.next(), let red = parseColorComp(r),
+              let g = iterator.next(), let green = parseColorComp(g),
+              let b = iterator.next(), let blue = parseColorComp(b)
+        else {
+            return nil
+        }
+
+        guard let a = iterator.next(), let alpha = parseAlphaComp(a) else {
+            return SolidColor(red: red, green: green, blue: blue)
+        }
+
+        return SolidColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+}
+
+private extension SolidColorResolver {
+    func parseColorComp(_ string: some StringProtocol) -> Float16? {
+        if string.hasSuffix("%"), let value = Float16(string.dropLast(1)) {
+            return value / 100.0
+        }
+
+        if let value = Float16(string) {
+            return value / 255.0
+        }
+
+        return nil
+    }
+
+    func parseAlphaComp(_ string: some StringProtocol) -> Float16? {
+        if string.hasSuffix("%"), let value = Float16(string.dropLast(1)) {
+            return value / 100.0
+        }
+
+        if let value = Float16(string) {
+            return value
         }
 
         return nil

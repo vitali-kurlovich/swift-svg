@@ -10,7 +10,7 @@ extension CharacterSet {
     )
 
     static let svgNumbersSeparator = CharacterSet.whitespacesAndNewlines.union(
-        Self.whitespacesNewlinesAndCommma,
+        CharacterSet(charactersIn: ",/"),
     )
 
     static let decimalDigitsAndFractionSeparator = CharacterSet.decimalDigits.union(

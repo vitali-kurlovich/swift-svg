@@ -34,7 +34,7 @@ extension SVGMatrixAttribute {
         if string.hasPrefix("matrix(") {
             let mt = string.dropFirst("matrix(".count).dropLast()
 
-            var iterator = SplitIterator(string: string, separator: ",")
+            var iterator = mt.split(characters: .svgNumbersSeparator).makeIterator()
 
             let a = Double(iterator.next() ?? "1") ?? 1
             let b = Double(iterator.next() ?? "0") ?? 0

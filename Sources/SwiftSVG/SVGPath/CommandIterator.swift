@@ -110,15 +110,3 @@ extension CommandIterator {
         }
     }
 }
-
-private extension CharacterSet {
-    static let decimalDigitsAndFractionSeparator = CharacterSet.decimalDigits.union(
-        CharacterSet(charactersIn: "-."),
-    )
-
-    static let whitespacesNewlinesAndCommma = CharacterSet.whitespacesAndNewlines.union(
-        CharacterSet(charactersIn: ","),
-    )
-
-    static let svgCommands = CharacterSet(charactersIn: "MmLlHhVvCcSsQqTtAaZz")
-}

@@ -16,7 +16,7 @@ public extension SvgTag {
 
 private extension SvgTag {
     func parseViewBox(from string: some StringProtocol) -> CGRect {
-        var iterator = SplitIterator(string: string, separator: " ")
+        var iterator = string.split(characters: .svgNumbersSeparator).makeIterator()
 
         let x = Double(iterator.next() ?? "0") ?? 0
         let y = Double(iterator.next() ?? "0") ?? 0

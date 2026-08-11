@@ -11,17 +11,13 @@ public extension SVGStyle {
     init(_ string: String) {
         var storage: [String: String] = [:]
 
-        var keyValueIterator = SplitIterator(string: string, separator: ";")
+        var iterator = string.split(character: ";").makeIterator()
 
-        while let keyValue = keyValueIterator.next() {
-            var iterator = SplitIterator(string: keyValue, separator: ":")
+        while let keyValue = iterator.next() {
+            var iterator = keyValue.split(characters: .keyValueSeparator).makeIterator()
 
-            if let key = iterator.next()?.trimmingCharacters(in: .whitespacesAndNewlines),
-               key.isEmpty == false,
-               let value = iterator.next()?.trimmingCharacters(in: .whitespacesAndNewlines),
-               value.isEmpty == false
-            {
-                storage[key] = value
+            if let key = iterator.next(), let value = iterator.next() {
+                storage[String(key)] = String(value)
             }
         }
         self.init(storage: storage)

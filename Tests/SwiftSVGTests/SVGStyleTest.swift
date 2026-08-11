@@ -16,7 +16,6 @@ struct SVGStyleTest {
         #expect(SVGStyle("  key : ").isEmpty)
     }
 
-    /// // style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
     @Test func parse() {
         #expect(
             SVGStyle("fill-rule:evenodd") == SVGStyle(storage: ["fill-rule": "evenodd"]),
@@ -40,7 +39,7 @@ struct SVGStyleTest {
         )
 
         #expect(
-            SVGStyle(" fill-rule: evenodd  ;clip-rule  :evenodd;stroke-linejoin  : round;stroke-miterlimit:2;") ==
+            SVGStyle(" fill-rule: evenodd  ;clip-rule  :evenodd;stroke-linejoin  : round          ;     stroke-miterlimit:2;") ==
                 SVGStyle(storage: [
                     "fill-rule": "evenodd",
                     "clip-rule": "evenodd",

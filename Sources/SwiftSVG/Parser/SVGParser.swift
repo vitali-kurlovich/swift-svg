@@ -6,7 +6,11 @@ import Foundation
 import OSLog
 
 public struct SVGParser {
-    public func parse(data: Data) -> SvgDocument? {
+    public init() {}
+}
+
+public extension SVGParser {
+    func parse(data: Data) -> SvgDocument? {
         let parser = XMLParser(data: data)
 
         let logger = Logger(subsystem: "SVGParser", category: "xml")

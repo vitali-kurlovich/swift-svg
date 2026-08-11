@@ -3,6 +3,7 @@
 //
 
 public struct SvgTag: SVGMutableElement, Sendable {
+    @inlinable
     public static var name: String {
         "svg"
     }
@@ -17,6 +18,7 @@ public struct SvgTag: SVGMutableElement, Sendable {
 }
 
 public extension SvgTag {
+    @inlinable
     var version: String? {
         attributes["version"]
     }

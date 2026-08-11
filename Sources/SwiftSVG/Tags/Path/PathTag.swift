@@ -3,6 +3,7 @@
 //
 
 public struct PathTag: SVGMutableElement {
+    @inlinable
     public static var name: String {
         "path"
     }
@@ -17,6 +18,7 @@ public struct PathTag: SVGMutableElement {
 }
 
 public extension PathTag {
+    @inlinable
     var commands: SVGPathCommands {
         SVGPathCommands(attributes["d"] ?? "")
     }

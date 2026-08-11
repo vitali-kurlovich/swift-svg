@@ -3,6 +3,7 @@
 //
 
 public struct GTag: SVGMutableElement {
+    @inlinable
     public static var name: String {
         "g"
     }

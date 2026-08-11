@@ -7,6 +7,17 @@ public struct SolidColorResolver: Sendable {
 }
 
 public extension SolidColorResolver {
+    func color(from string: some StringProtocol) -> SolidColor? {
+        if string.hasPrefix("#") {
+            return colorBy(hex: string)
+        } else if string.hasPrefix("rgb(") {
+            return colorBy(rgb: string)
+        }
+        return colorBy(name: string)
+    }
+}
+
+public extension SolidColorResolver {
     func colorBy(name: some StringProtocol) -> SolidColor? {
         namedColorsStorage[.init(name)]
     }

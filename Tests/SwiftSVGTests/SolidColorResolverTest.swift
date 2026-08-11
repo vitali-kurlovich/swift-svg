@@ -75,6 +75,25 @@ struct SolidColorResolverTest {
     }
 
     @Test
+    func `from string`() {
+        let resolver = SolidColorResolver()
+
+        #expect(resolver.color(from: "lime") == SolidColor.lime)
+
+        #expect(resolver.color(from: "#1A2B3C") == SolidColor(0x1A2B3C))
+
+        #expect(
+            resolver
+                .color(from: "rgb(12 54 88 / 75%)") == SolidColor(
+                    red: UInt8(12),
+                    green: UInt8(54),
+                    blue: UInt8(88),
+                    alpha: 0.75,
+                ),
+        )
+    }
+
+    @Test
     func `incorrect format`() {
         let resolver = SolidColorResolver()
         #expect(resolver.colorBy(name: "$red") == nil)
@@ -94,14 +113,13 @@ struct SolidColorResolverTest {
         #expect(resolver.colorBy(hex: "#ABG") == nil)
 
         #expect(resolver.colorBy(hex: "#ABCD") == nil)
-        
-        
+
         #expect(resolver.colorBy(rgb: "rgb(1, 2)") == nil)
-        
+
         #expect(resolver.colorBy(rgb: "rgb (10 20 30)") == nil)
-        
+
         #expect(resolver.colorBy(rgb: "rgb(10 20# 30)") == nil)
-        
+
         #expect(resolver.colorBy(rgb: "rgb(20 30 40 / 0.5) ") == nil)
         #expect(resolver.colorBy(rgb: " rgb(20 30 40 / 0.5)") == nil)
     }

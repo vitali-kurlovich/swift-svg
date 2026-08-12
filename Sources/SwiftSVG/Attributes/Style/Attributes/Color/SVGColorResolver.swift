@@ -2,11 +2,11 @@
 //  Created by Kurlovich Vitali on 8/10/26.
 //
 
-public struct SolidColorResolver: Sendable {
+public struct SVGColorResolver: Sendable {
     public init() {}
 }
 
-public extension SolidColorResolver {
+public extension SVGColorResolver {
     func color(from string: some StringProtocol) -> SolidColor? {
         if string.hasPrefix("#") {
             return colorBy(hex: string)
@@ -17,7 +17,7 @@ public extension SolidColorResolver {
     }
 }
 
-public extension SolidColorResolver {
+public extension SVGColorResolver {
     func colorBy(name: some StringProtocol) -> SolidColor? {
         namedColorsStorage[.init(name)]
     }
@@ -82,7 +82,7 @@ public extension SolidColorResolver {
     }
 }
 
-private extension SolidColorResolver {
+private extension SVGColorResolver {
     func parseColorComp(_ string: some StringProtocol) -> Float16? {
         if string.hasSuffix("%"), let value = Float16(string.dropLast(1)) {
             return value / 100.0

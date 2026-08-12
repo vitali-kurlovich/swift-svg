@@ -57,7 +57,12 @@ extension SVGStyle: Collection {
 public extension SVGStyle {
     @inlinable
     subscript(key: String) -> String? {
-        storage[key]
+        get {
+            storage[key]
+        }
+        set {
+            storage[key] = newValue
+        }
     }
 }
 

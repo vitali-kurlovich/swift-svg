@@ -8,7 +8,7 @@ import Testing
 struct SolidColorResolverTest {
     @Test
     func `color by name`() {
-        let resolver = SolidColorResolver()
+        let resolver = SVGColorResolver()
 
         #expect(resolver.colorBy(name: "red") == SolidColor(red: 1.0))
         #expect(resolver.colorBy(name: "blue") == SolidColor(blue: 1.0))
@@ -17,7 +17,7 @@ struct SolidColorResolverTest {
 
     @Test
     func `hex color`() {
-        let resolver = SolidColorResolver()
+        let resolver = SVGColorResolver()
 
         #expect(resolver.colorBy(hex: "#1A2B3C") == SolidColor(0x1A2B3C))
         #expect(resolver.colorBy(hex: "#ABC") == SolidColor(0xAABBCC))
@@ -25,7 +25,7 @@ struct SolidColorResolverTest {
 
     @Test
     func `rgb()`() {
-        let resolver = SolidColorResolver()
+        let resolver = SVGColorResolver()
         #expect(
             resolver
                 .colorBy(rgb: "rgb(12 54 88)") == SolidColor(
@@ -76,7 +76,7 @@ struct SolidColorResolverTest {
 
     @Test
     func `from string`() {
-        let resolver = SolidColorResolver()
+        let resolver = SVGColorResolver()
 
         #expect(resolver.color(from: "lime") == SolidColor.lime)
 
@@ -95,7 +95,7 @@ struct SolidColorResolverTest {
 
     @Test
     func `incorrect format`() {
-        let resolver = SolidColorResolver()
+        let resolver = SVGColorResolver()
         #expect(resolver.colorBy(name: "$red") == nil)
         #expect(resolver.colorBy(name: "none") == nil)
 

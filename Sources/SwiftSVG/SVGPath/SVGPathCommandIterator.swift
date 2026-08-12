@@ -23,26 +23,24 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
 
         switch next.command {
         case .M:
-            var points: [Point] = []
-            points.reserveCapacity(count)
             var iterator = next.arguments.makeIterator()
 
-            while let x = iterator.next(), let y = iterator.next() {
-                points.append(Point(x: x, y: y))
+            guard let x = iterator.next(), let y = iterator.next() else {
+                assertionFailure("Move command requare 2 numbers")
+                return nil
             }
 
-            return .move(MoveCommand(points: points))
+            return .move(Point(x: x, y: y))
 
         case .m:
-            var offsets: [Vector] = []
-            offsets.reserveCapacity(count)
             var iterator = next.arguments.makeIterator()
 
-            while let dx = iterator.next(), let dy = iterator.next() {
-                offsets.append(Vector(dx: dx, dy: dy))
+            guard let dx = iterator.next(), let dy = iterator.next() else {
+                assertionFailure("Move command requare 2 numbers")
+                return nil
             }
 
-            return .moveRelative(MoveRelativeCommand(offsets: offsets))
+            return .moveRelative(Vector(dx: dx, dy: dy))
 
         case .L:
             var points: [Point] = []
@@ -54,7 +52,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 points.append(Point(x: x, y: y))
             }
 
-            return .line(LineCommand(points: points))
+            return .line(points)
 
         case .l:
             var offsets: [Vector] = []
@@ -65,57 +63,63 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 offsets.append(Vector(dx: dx, dy: dy))
             }
 
-            return .lineRelative(LineRelativeCommand(offsets: offsets))
+            return .lineRelative(offsets)
 
         case .H:
-            var points: [HorizontalPoint] = []
-
-            points.reserveCapacity(count)
             var iterator = next.arguments.makeIterator()
 
-            while let x = iterator.next() {
-                points.append(HorizontalPoint(x: x))
+            guard var x = iterator.next() else {
+                assertionFailure("H command requare 1 numbers")
+                return nil
             }
 
-            return .horizontal(HorizontalLineCommand(points: points))
+            while let value = iterator.next() {
+                x = value
+            }
+
+            return .horizontal(HorizontalPoint(x: x))
 
         case .h:
-            var offsets: [HorizontalVector] = []
-
-            offsets.reserveCapacity(count)
             var iterator = next.arguments.makeIterator()
 
-            while let dx = iterator.next() {
-                offsets.append(HorizontalVector(dx: dx))
+            guard var dx = iterator.next() else {
+                assertionFailure("h command requare 1 numbers min")
+                return nil
             }
 
-            return .horizontalRelative(
-                HorizontalRelativeLineCommand(offsets: offsets),
-            )
+            while let value = iterator.next() {
+                dx = value
+            }
+
+            return .horizontalRelative(HorizontalVector(dx: dx))
 
         case .V:
-            var points: [VerticalPoint] = []
-
-            points.reserveCapacity(count)
             var iterator = next.arguments.makeIterator()
 
-            while let y = iterator.next() {
-                points.append(VerticalPoint(y: y))
+            guard var y = iterator.next() else {
+                assertionFailure("V command requare 1 numbers min")
+                return nil
             }
 
-            return .vertical(VerticalLineCommand(points: points))
+            while let value = iterator.next() {
+                y = value
+            }
+
+            return .vertical(VerticalPoint(y: y))
 
         case .v:
-            var offsets: [VerticalVector] = []
-
-            offsets.reserveCapacity(count)
             var iterator = next.arguments.makeIterator()
 
-            while let dy = iterator.next() {
-                offsets.append(VerticalVector(dy: dy))
+            guard var dy = iterator.next() else {
+                assertionFailure("v command requare 1 numbers min")
+                return nil
             }
 
-            return .verticalRelative(VerticalRelativeLineCommand(offsets: offsets))
+            while let value = iterator.next() {
+                dy = value
+            }
+
+            return .verticalRelative(VerticalVector(dy: dy))
 
         case .C:
             var points: [CubicPoint] = []
@@ -134,7 +138,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 points.append(CubicPoint(p1: p1, p2: p2, p: p))
             }
 
-            return .cubic(CubicCommand(points: points))
+            return .cubic(points)
 
         case .c:
             var offsets: [CubicVector] = []
@@ -153,7 +157,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 offsets.append(CubicVector(v1: v1, v2: v2, v: v))
             }
 
-            return .cubicRelative(CubicRelativeCommand(offsets: offsets))
+            return .cubicRelative(offsets)
 
         case .S:
             var points: [SmoothPoint] = []
@@ -170,7 +174,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 points.append(SmoothPoint(p2: p2, p: p))
             }
 
-            return .smooth(SmoothCommand(points: points))
+            return .smooth(points)
 
         case .s:
             var offsets: [SmoothVector] = []
@@ -187,7 +191,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 offsets.append(SmoothVector(v2: v2, v: v))
             }
 
-            return .smoothRelative(SmoothRelativeCommand(offsets: offsets))
+            return .smoothRelative(offsets)
 
         case .Q:
             var points: [QuadraticPoint] = []
@@ -204,7 +208,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 points.append(QuadraticPoint(p1: p1, p: p))
             }
 
-            return .quadratic(QuadraticCommand(points: points))
+            return .quadratic(points)
 
         case .q:
             var offsets: [QuadraticVector] = []
@@ -221,7 +225,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 offsets.append(QuadraticVector(v1: v1, v: v))
             }
 
-            return .quadraticRelative(QuadraticRelativeCommand(offsets: offsets))
+            return .quadraticRelative(offsets)
 
         case .T:
             var points: [Point] = []
@@ -233,7 +237,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 points.append(Point(x: x, y: y))
             }
 
-            return .smoothQuadratic(SmoothQuadraticCommand(points: points))
+            return .smoothQuadratic(points)
 
         case .t:
             var offsets: [Vector] = []
@@ -245,9 +249,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 offsets.append(Vector(dx: dx, dy: dy))
             }
 
-            return .smoothQuadraticRelative(
-                SmoothQuadraticRelativeCommand(offsets: offsets),
-            )
+            return .smoothQuadraticRelative(offsets)
 
         case .A, .a:
             return self.next()

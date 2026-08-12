@@ -2,96 +2,32 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-public struct MoveCommand: Sendable, Hashable {
-    public let points: [Point]
-}
-
-public struct MoveRelativeCommand: Sendable, Hashable {
-    public let offsets: [Vector]
-}
-
-public struct LineCommand: Sendable, Hashable {
-    public let points: [Point]
-}
-
-public struct LineRelativeCommand: Sendable, Hashable {
-    public let offsets: [Vector]
-}
-
-public struct HorizontalLineCommand: Sendable, Hashable {
-    public let points: [HorizontalPoint]
-}
-
-public struct HorizontalRelativeLineCommand: Sendable, Hashable {
-    public let offsets: [HorizontalVector]
-}
-
-public struct VerticalLineCommand: Sendable, Hashable {
-    public let points: [VerticalPoint]
-}
-
-public struct VerticalRelativeLineCommand: Sendable, Hashable {
-    public let offsets: [VerticalVector]
-}
-
-public struct CubicCommand: Sendable, Hashable {
-    public let points: [CubicPoint]
-}
-
-public struct CubicRelativeCommand: Sendable, Hashable {
-    public let offsets: [CubicVector]
-}
-
-public struct SmoothCommand: Sendable, Hashable {
-    public let points: [SmoothPoint]
-}
-
-public struct SmoothRelativeCommand: Sendable, Hashable {
-    public let offsets: [SmoothVector]
-}
-
-public struct QuadraticCommand: Sendable, Hashable {
-    public let points: [QuadraticPoint]
-}
-
-public struct QuadraticRelativeCommand: Sendable, Hashable {
-    public let offsets: [QuadraticVector]
-}
-
-public struct SmoothQuadraticCommand: Sendable, Hashable {
-    public let points: [Point]
-}
-
-public struct SmoothQuadraticRelativeCommand: Sendable, Hashable {
-    public let offsets: [Vector]
-}
-
 public struct ClosePathCommand: Sendable, Hashable {}
 
 public enum SVGPathCommand {
-    case move(MoveCommand)
-    case moveRelative(MoveRelativeCommand)
+    case move(Point)
+    case moveRelative(Vector)
 
-    case line(LineCommand)
-    case lineRelative(LineRelativeCommand)
+    case line([Point])
+    case lineRelative([Vector])
 
-    case horizontal(HorizontalLineCommand)
-    case horizontalRelative(HorizontalRelativeLineCommand)
+    case horizontal(HorizontalPoint)
+    case horizontalRelative(HorizontalVector)
 
-    case vertical(VerticalLineCommand)
-    case verticalRelative(VerticalRelativeLineCommand)
+    case vertical(VerticalPoint)
+    case verticalRelative(VerticalVector)
 
-    case cubic(CubicCommand)
-    case cubicRelative(CubicRelativeCommand)
+    case cubic([CubicPoint])
+    case cubicRelative([CubicVector])
 
-    case smooth(SmoothCommand)
-    case smoothRelative(SmoothRelativeCommand)
+    case smooth([SmoothPoint])
+    case smoothRelative([SmoothVector])
 
-    case quadratic(QuadraticCommand)
-    case quadraticRelative(QuadraticRelativeCommand)
+    case quadratic([QuadraticPoint])
+    case quadraticRelative([QuadraticVector])
 
-    case smoothQuadratic(SmoothQuadraticCommand)
-    case smoothQuadraticRelative(SmoothQuadraticRelativeCommand)
+    case smoothQuadratic([Point])
+    case smoothQuadraticRelative([Vector])
 
     // case arc()
 

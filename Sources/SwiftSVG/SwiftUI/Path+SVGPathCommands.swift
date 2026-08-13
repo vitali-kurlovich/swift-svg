@@ -29,10 +29,10 @@ extension Path: PathBuilder {
     }
 
     public mutating func addCurve(_ points: CubicPoint) {
-        addCurve(to: .init(points.p), control1: .init(points.p1), control2: .init(points.p2))
+        addCurve(to: .init(points.p), control1: .init(points.control1), control2: .init(points.control2))
     }
 
     public mutating func addQuadCurve(_ point: QuadraticPoint) {
-        addQuadCurve(to: .init(point.p), control: .init(point.p1))
+        addQuadCurve(to: .init(point.p), control: .init(point.control1))
     }
 }

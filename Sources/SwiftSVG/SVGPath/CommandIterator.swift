@@ -28,18 +28,17 @@ struct CommandIterator<S: StringProtocol>: IteratorProtocol {
         )
     }
 
-    mutating func argsuments(for command: Command) -> [Double] {
+    mutating func argsuments(for command: Command) -> [S.SubSequence] {
         if command == .z || command == .Z {
             return []
         }
 
-        var argsuments: [Double] = []
+        var argsuments: [S.SubSequence] = []
 
         let count = command.argsCount
+        argsuments.reserveCapacity(count)
 
         while true {
-            argsuments.reserveCapacity(count)
-
             _ = scanner.skip(in: .whitespacesNewlinesAndCommma)
 
             let string = scanner.skip(in: .decimalDigitsAndFractionSeparator)
@@ -48,7 +47,7 @@ struct CommandIterator<S: StringProtocol>: IteratorProtocol {
                 break
             }
 
-            argsuments.append(Double(string)!)
+            argsuments.append(string)
         }
 
         return argsuments
@@ -56,11 +55,43 @@ struct CommandIterator<S: StringProtocol>: IteratorProtocol {
 }
 
 extension CommandIterator {
-    struct PathElement: Equatable, Sendable {
+    struct PathElement: Equatable {
         let command: Command
-        let arguments: [Double]
+        let arguments: [S.SubSequence]
+
+        func makeIterator() -> CommandArgumentsIterator {
+            CommandArgumentsIterator(iterator: arguments.makeIterator())
+        }
     }
 
+    struct CommandArgumentsIterator: IteratorProtocol {
+        typealias Element = [S.SubSequence].Element
+
+        var iterator: [S.SubSequence].Iterator
+
+        mutating func next() -> Element? {
+            iterator.next()
+        }
+
+        mutating func nextDouble() -> Double? {
+            guard let string = iterator.next() else {
+                return nil
+            }
+
+            return Double(string)
+        }
+
+        mutating func nextInt() -> Int? {
+            guard let string = iterator.next() else {
+                return nil
+            }
+
+            return Int(string)
+        }
+    }
+}
+
+extension CommandIterator {
     enum Command: Character {
         case M = "M"
         case m = "m"

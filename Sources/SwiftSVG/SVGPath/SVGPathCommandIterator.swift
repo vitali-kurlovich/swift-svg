@@ -23,9 +23,11 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
 
         switch next.command {
         case .M:
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            guard let x = iterator.next(), let y = iterator.next() else {
+            guard let x: Double = iterator.nextDouble(),
+                  let y: Double = iterator.nextDouble()
+            else {
                 assertionFailure("Move command requare 2 numbers")
                 return nil
             }
@@ -33,9 +35,11 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             return .move(Point(x: x, y: y))
 
         case .m:
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            guard let dx = iterator.next(), let dy = iterator.next() else {
+            guard let dx = iterator.nextDouble(),
+                  let dy = iterator.nextDouble()
+            else {
                 assertionFailure("Move command requare 2 numbers")
                 return nil
             }
@@ -46,9 +50,11 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var points: [Point] = []
 
             points.reserveCapacity(count)
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let x = iterator.next(), let y = iterator.next() {
+            while let x = iterator.nextDouble(),
+                  let y = iterator.nextDouble()
+            {
                 points.append(Point(x: x, y: y))
             }
 
@@ -57,65 +63,67 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
         case .l:
             var offsets: [Vector] = []
             offsets.reserveCapacity(count)
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let dx = iterator.next(), let dy = iterator.next() {
+            while let dx = iterator.nextDouble(),
+                  let dy = iterator.nextDouble()
+            {
                 offsets.append(Vector(dx: dx, dy: dy))
             }
 
             return .lineRelative(offsets)
 
         case .H:
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            guard var x = iterator.next() else {
+            guard var x = iterator.nextDouble() else {
                 assertionFailure("H command requare 1 numbers")
                 return nil
             }
 
-            while let value = iterator.next() {
+            while let value = iterator.nextDouble() {
                 x = value
             }
 
             return .horizontal(HorizontalPoint(x: x))
 
         case .h:
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            guard var dx = iterator.next() else {
+            guard var dx = iterator.nextDouble() else {
                 assertionFailure("h command requare 1 numbers min")
                 return nil
             }
 
-            while let value = iterator.next() {
+            while let value = iterator.nextDouble() {
                 dx = value
             }
 
             return .horizontalRelative(HorizontalVector(dx: dx))
 
         case .V:
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            guard var y = iterator.next() else {
+            guard var y = iterator.nextDouble() else {
                 assertionFailure("V command requare 1 numbers min")
                 return nil
             }
 
-            while let value = iterator.next() {
+            while let value = iterator.nextDouble() {
                 y = value
             }
 
             return .vertical(VerticalPoint(y: y))
 
         case .v:
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            guard var dy = iterator.next() else {
+            guard var dy = iterator.nextDouble() else {
                 assertionFailure("v command requare 1 numbers min")
                 return nil
             }
 
-            while let value = iterator.next() {
+            while let value = iterator.nextDouble() {
                 dy = value
             }
 
@@ -125,11 +133,11 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var points: [CubicPoint] = []
             points.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let x1 = iterator.next(), let y1 = iterator.next(),
-                  let x2 = iterator.next(), let y2 = iterator.next(),
-                  let x = iterator.next(), let y = iterator.next()
+            while let x1 = iterator.nextDouble(), let y1 = iterator.nextDouble(),
+                  let x2 = iterator.nextDouble(), let y2 = iterator.nextDouble(),
+                  let x = iterator.nextDouble(), let y = iterator.nextDouble()
             {
                 let p1 = Point(x: x1, y: y1)
                 let p2 = Point(x: x2, y: y2)
@@ -144,11 +152,11 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var offsets: [CubicVector] = []
             offsets.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let dx1 = iterator.next(), let dy1 = iterator.next(),
-                  let dx2 = iterator.next(), let dy2 = iterator.next(),
-                  let dx = iterator.next(), let dy = iterator.next()
+            while let dx1 = iterator.nextDouble(), let dy1 = iterator.nextDouble(),
+                  let dx2 = iterator.nextDouble(), let dy2 = iterator.nextDouble(),
+                  let dx = iterator.nextDouble(), let dy = iterator.nextDouble()
             {
                 let v1 = Vector(dx: dx1, dy: dy1)
                 let v2 = Vector(dx: dx2, dy: dy2)
@@ -163,10 +171,10 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var points: [SmoothPoint] = []
             points.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let x2 = iterator.next(), let y2 = iterator.next(),
-                  let x = iterator.next(), let y = iterator.next()
+            while let x2 = iterator.nextDouble(), let y2 = iterator.nextDouble(),
+                  let x = iterator.nextDouble(), let y = iterator.nextDouble()
             {
                 let p2 = Point(x: x2, y: y2)
                 let p = Point(x: x, y: y)
@@ -180,10 +188,10 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var offsets: [SmoothVector] = []
             offsets.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let dx2 = iterator.next(), let dy2 = iterator.next(),
-                  let dx = iterator.next(), let dy = iterator.next()
+            while let dx2 = iterator.nextDouble(), let dy2 = iterator.nextDouble(),
+                  let dx = iterator.nextDouble(), let dy = iterator.nextDouble()
             {
                 let v2 = Vector(dx: dx2, dy: dy2)
                 let v = Vector(dx: dx, dy: dy)
@@ -197,10 +205,10 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var points: [QuadraticPoint] = []
             points.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let x1 = iterator.next(), let y1 = iterator.next(),
-                  let x = iterator.next(), let y = iterator.next()
+            while let x1 = iterator.nextDouble(), let y1 = iterator.nextDouble(),
+                  let x = iterator.nextDouble(), let y = iterator.nextDouble()
             {
                 let p1 = Point(x: x1, y: y1)
                 let p = Point(x: x, y: y)
@@ -214,10 +222,10 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var offsets: [QuadraticVector] = []
             offsets.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let dx1 = iterator.next(), let dy1 = iterator.next(),
-                  let dx = iterator.next(), let dy = iterator.next()
+            while let dx1 = iterator.nextDouble(), let dy1 = iterator.nextDouble(),
+                  let dx = iterator.nextDouble(), let dy = iterator.nextDouble()
             {
                 let v1 = Vector(dx: dx1, dy: dy1)
                 let v = Vector(dx: dx, dy: dy)
@@ -231,9 +239,9 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var points: [Point] = []
             points.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let x = iterator.next(), let y = iterator.next() {
+            while let x = iterator.nextDouble(), let y = iterator.nextDouble() {
                 points.append(Point(x: x, y: y))
             }
 
@@ -243,16 +251,81 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
             var offsets: [Vector] = []
             offsets.reserveCapacity(count)
 
-            var iterator = next.arguments.makeIterator()
+            var iterator = next.makeIterator()
 
-            while let dx = iterator.next(), let dy = iterator.next() {
+            while let dx = iterator.nextDouble(), let dy = iterator.nextDouble() {
                 offsets.append(Vector(dx: dx, dy: dy))
             }
 
             return .smoothQuadraticRelative(offsets)
 
-        case .A, .a:
-            return self.next()
+        case .A:
+            // (rx ry angle large-arc-flag sweep-flag x y)+
+
+            var arcs: [ArcCurve] = []
+            arcs.reserveCapacity(count)
+
+            var iterator = next.makeIterator()
+
+            while let rx = iterator.nextDouble(), let ry = iterator.nextDouble(),
+                  let angle = iterator.nextDouble(),
+                  let largeFlag = iterator.nextInt(), let sweep = iterator.nextInt(),
+                  let x = iterator.nextDouble(), let y = iterator.nextDouble()
+            {
+                var options = ArcCurveOptions()
+
+                if largeFlag != 0 {
+                    options.insert(.drawLargerArc)
+                }
+
+                if sweep != 0 {
+                    options.insert(.clockwise)
+                }
+
+                let arc = ArcCurve(
+                    radius: .init(width: rx, height: ry),
+                    end: .init(x: x, y: y),
+                    angle: angle,
+                    options: options,
+                )
+
+                arcs.append(arc)
+            }
+
+            return .arc(arcs)
+
+        case .a:
+            var arcs: [ArcOffsetCurve] = []
+            arcs.reserveCapacity(count)
+
+            var iterator = next.makeIterator()
+
+            while let rx = iterator.nextDouble(), let ry = iterator.nextDouble(),
+                  let angle = iterator.nextDouble(),
+                  let largeFlag = iterator.nextInt(), let sweep = iterator.nextInt(),
+                  let dx = iterator.nextDouble(), let dy = iterator.nextDouble()
+            {
+                var options = ArcCurveOptions()
+
+                if largeFlag != 0 {
+                    options.insert(.drawLargerArc)
+                }
+
+                if sweep != 0 {
+                    options.insert(.clockwise)
+                }
+
+                let arc = ArcOffsetCurve(
+                    radius: .init(width: rx, height: ry),
+                    end: .init(dx: dx, dy: dy),
+                    angle: angle,
+                    options: options,
+                )
+
+                arcs.append(arc)
+            }
+
+            return .arcRelative(arcs)
 
         case .Z, .z:
             return .closePath

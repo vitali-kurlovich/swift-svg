@@ -29,7 +29,8 @@ public enum SVGPathCommand {
     case smoothQuadratic([Point])
     case smoothQuadraticRelative([Vector])
 
-    // case arc()
+    case arc([ArcCurve])
+    case arcRelative([ArcOffsetCurve])
 
     case closePath
 }

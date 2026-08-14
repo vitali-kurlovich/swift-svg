@@ -20,19 +20,19 @@ struct CommandIteratorTest {
     func `M tag`() {
         #expect(
             Array(CommandsSequence(string: "M78,98")) == [
-                PathElement(command: .M, arguments: [78, 98]),
+                PathElement(command: .M, arguments: ["78", "98"]),
             ],
         )
 
         #expect(
             Array(CommandsSequence(string: "  M78,98")) == [
-                PathElement(command: .M, arguments: [78, 98]),
+                PathElement(command: .M, arguments: ["78", "98"]),
             ],
         )
 
         #expect(
             Array(CommandsSequence(string: "  M78,   98   ")) == [
-                PathElement(command: .M, arguments: [78, 98]),
+                PathElement(command: .M, arguments: ["78", "98"]),
             ],
         )
 
@@ -40,13 +40,13 @@ struct CommandIteratorTest {
             Array(CommandsSequence(string: """
              M78,   98  
             """)) == [
-                PathElement(command: .M, arguments: [78, 98]),
+                PathElement(command: .M, arguments: ["78", "98"]),
             ],
         )
 
         #expect(
             Array(CommandsSequence(string: "  M78,   98   z  ")) == [
-                PathElement(command: .M, arguments: [78, 98]),
+                PathElement(command: .M, arguments: ["78", "98"]),
                 PathElement(command: .z, arguments: []),
             ],
         )

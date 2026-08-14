@@ -31,7 +31,7 @@ public extension Stroke.LineJoin {
 public struct SVGLineJoinResolver {
     public init() {}
 
-    public func lineJoin(from string: some StringProtocol) -> Stroke.LineJoin? {
+    public func lineJoin(from string: some StringProtocol) -> Stroke.LineJoin {
         switch string {
         case "miter":
             .miter
@@ -52,7 +52,7 @@ public struct SVGLineJoinResolver {
             .fallback
 
         default:
-            nil
+            .default
         }
     }
 }

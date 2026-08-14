@@ -27,3 +27,32 @@ public extension Stroke.LineJoin {
         .miter
     }
 }
+
+public struct SVGLineJoinResolver {
+    public init() {}
+
+    public func lineJoin(from string: some StringProtocol) -> Stroke.LineJoin? {
+        switch string {
+        case "miter":
+            .miter
+
+        case "crop":
+            .crop
+
+        case "arcs":
+            .arcs
+
+        case "bevel":
+            .bevel
+
+        case "round":
+            .round
+
+        case "fallback":
+            .fallback
+
+        default:
+            nil
+        }
+    }
+}

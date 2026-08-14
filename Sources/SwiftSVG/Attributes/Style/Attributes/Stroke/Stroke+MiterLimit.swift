@@ -33,3 +33,4 @@ extension Stroke.MiterLimit: ExpressibleByFloatLiteral {
         self.init(value: value)
     }
 }
+

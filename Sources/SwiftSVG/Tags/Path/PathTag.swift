@@ -2,7 +2,7 @@
 //  Created by Kurlovich Vitali on 8/3/26.
 //
 
-public struct PathTag: SVGMutableElement, SVGShape {
+public struct PathTag: SVGMutableElement, SVGStylable {
     @inlinable
     public static var name: String {
         "path"

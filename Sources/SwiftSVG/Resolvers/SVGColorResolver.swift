@@ -5,7 +5,7 @@
 public struct SVGColorResolver {
     public init() {}
 
-    func color(from string: some StringProtocol) -> SolidColor? {
+    public func color(from string: some StringProtocol) -> SolidColor? {
         let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if trimmed.hasPrefix("#") {

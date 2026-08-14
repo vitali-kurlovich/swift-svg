@@ -24,6 +24,12 @@ public extension SVGStyle {
     }
 }
 
+public extension SVGStyle {
+    static var `default`: Self {
+        .init(storage: [:])
+    }
+}
+
 extension SVGStyle: Collection {
     public typealias Element = Dictionary<String, String>.Element
     public typealias Index = Dictionary<String, String>.Index

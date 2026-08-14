@@ -2,8 +2,6 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-public struct ClosePathCommand: Sendable, Hashable {}
-
 public enum SVGPathCommand {
     case move(Point)
     case moveRelative(Vector)

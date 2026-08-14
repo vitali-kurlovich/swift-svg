@@ -5,8 +5,8 @@
 public struct SVGLineCapResolver {
     public init() {}
 
-    public func lineCap(from string: some StringProtocol) -> Stroke.LineCap? {
-        switch string {
+    public func lineCap(from string: some StringProtocol) -> Stroke.LineCap {
+        switch string.trimmingCharacters(in: .whitespacesAndNewlines) {
         case "butt":
             .butt
         case "round":
@@ -14,7 +14,7 @@ public struct SVGLineCapResolver {
         case "square":
             .square
         default:
-            nil
+            .default
         }
     }
 }

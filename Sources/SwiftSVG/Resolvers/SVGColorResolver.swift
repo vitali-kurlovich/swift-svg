@@ -2,18 +2,18 @@
 //  Created by Kurlovich Vitali on 8/10/26.
 //
 
-public struct SVGColorResolver: Sendable {
+public struct SVGColorResolver {
     public init() {}
-}
 
-public extension SVGColorResolver {
     func color(from string: some StringProtocol) -> SolidColor? {
-        if string.hasPrefix("#") {
-            return colorBy(hex: string)
+        let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if trimmed.hasPrefix("#") {
+            return colorBy(hex: trimmed)
         } else if string.hasPrefix("rgb(") {
-            return colorBy(rgb: string)
+            return colorBy(rgb: trimmed)
         }
-        return colorBy(name: string)
+        return colorBy(name: trimmed)
     }
 }
 

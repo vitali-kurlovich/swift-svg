@@ -211,9 +211,9 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                   let x = iterator.nextDouble(), let y = iterator.nextDouble()
             {
                 let cp1 = Point(x: x1, y: y1)
-                let p = Point(x: x, y: y)
+                let target = Point(x: x, y: y)
 
-                points.append(QuadraticPoint(control1: cp1, p: p))
+                points.append(QuadraticPoint(to: target, control1: cp1))
             }
 
             return .quadratic(points)

@@ -5,22 +5,28 @@
 public struct QuadraticPoint: Sendable, Hashable {
     public var target: Point
     public var control1: Point
-   
+
     @inlinable
-    public init(control1: Point, p: Point) {
+    public init(to target: Point, control1: Point) {
+        self.target = target
         self.control1 = control1
-        self.target = p
     }
 }
 
 public extension QuadraticPoint {
     @inlinable
     static func + (lhs: QuadraticPoint, rhs: QuadraticVector) -> QuadraticPoint {
-        .init(control1: lhs.control1 + rhs.control1, p: lhs.target + rhs.v)
+        .init(
+            to: lhs.target + rhs.target,
+            control1: lhs.control1 + rhs.control1,
+        )
     }
 
     @inlinable
     static func - (lhs: QuadraticPoint, rhs: QuadraticVector) -> QuadraticPoint {
-        .init(control1: lhs.control1 - rhs.control1, p: lhs.target - rhs.v)
+        .init(
+            to: lhs.target - rhs.target,
+            control1: lhs.control1 - rhs.control1,
+        )
     }
 }

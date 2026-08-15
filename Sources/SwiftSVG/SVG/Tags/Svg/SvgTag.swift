@@ -2,7 +2,7 @@
 //  Created by Kurlovich Vitali on 8/3/26.
 //
 
-public struct SvgTag: SVGMutableElement, SVGStylable, Sendable {
+public struct SvgTag: SVGMutableElement, Sendable {
     @inlinable
     public static var name: String {
         "svg"

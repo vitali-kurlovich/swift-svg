@@ -2,7 +2,7 @@
 //  Created by Kurlovich Vitali on 8/3/26.
 //
 
-public struct GTag: SVGMutableElement, SVGStylable {
+public struct GTag: SVGMutableElement {
     @inlinable
     public static var name: String {
         "g"

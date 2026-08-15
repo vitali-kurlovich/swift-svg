@@ -2,9 +2,7 @@
 //  Created by Kurlovich Vitali on 8/12/26.
 //
 
-public protocol SVGStylable: SVGElement {}
-
-public extension SVGStylable {
+public extension SVGElement {
     var fill: String? {
         attributes["fill"]
     }
@@ -18,7 +16,7 @@ public extension SVGStylable {
     }
 }
 
-public extension SVGStylable {
+public extension SVGElement {
     var stroke: String? {
         attributes["stroke"]
     }
@@ -52,7 +50,7 @@ public extension SVGStylable {
     }
 }
 
-public extension SVGStylable {
+public extension SVGElement {
     var style: SVGStyle {
         style([
             "fill", "fill-opacity", "fill-rule",

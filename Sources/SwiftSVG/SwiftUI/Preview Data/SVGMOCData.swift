@@ -6,7 +6,11 @@ import Foundation
 
 enum SVGMOCData {
     static var bunnyContainer: DrawableContainer<CGAffineTransform, CGRect> {
-        .init(document)
+        let factory = DrawableContainerFactory(
+            factory: SwiftUIDrawableFactory(),
+        )
+
+        return factory.drawable(from: document)
     }
 
     static var document: SvgDocument {

@@ -11,7 +11,7 @@ public extension Drawable {
 
     static func group(style: Style,
                       transform: Transform? = nil,
-                      childs: [Drawable<Transform>]) -> Self
+                      childs: [Drawable<Transform>] = []) -> Self
     {
         Self(DrawableGroup.self, style: style, transform: transform, childs: childs)
     }

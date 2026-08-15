@@ -39,12 +39,6 @@ extension DrawableView {
     }
 }
 
-extension FillStyle {
-    init(_ rule: Fill.Rule, antialiased: Bool = true) {
-        self.init(eoFill: rule == .evenodd, antialiased: antialiased)
-    }
-}
-
 private struct CanvasRender {
     let drawable: Drawable<CGAffineTransform>
 
@@ -52,7 +46,7 @@ private struct CanvasRender {
         draw(context: context, drawable: drawable)
     }
 
-    func draw(context: GraphicsContext, drawable: Drawable<CGAffineTransform>) {
+    private func draw(context: GraphicsContext, drawable: Drawable<CGAffineTransform>) {
         var context = context
 
         if let transform = drawable.transform, transform.isIdentity == false {
@@ -83,7 +77,7 @@ private struct CanvasRender {
         draw(context: context, drawables: drawable.childs)
     }
 
-    func draw(context: GraphicsContext, drawables: [Drawable<CGAffineTransform>]) {
+    private func draw(context: GraphicsContext, drawables: [Drawable<CGAffineTransform>]) {
         for drawable in drawables {
             draw(context: context, drawable: drawable)
         }

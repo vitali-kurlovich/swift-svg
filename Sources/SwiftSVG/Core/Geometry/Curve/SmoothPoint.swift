@@ -7,7 +7,7 @@ public struct SmoothPoint: Sendable, Hashable {
     public var p: Point
 
     @inlinable
-    public init(control2: Point, p: Point) {
+    public init(to p: Point, control2: Point) {
         self.control2 = control2
         self.p = p
     }
@@ -16,11 +16,11 @@ public struct SmoothPoint: Sendable, Hashable {
 public extension SmoothPoint {
     @inlinable
     static func + (lhs: SmoothPoint, rhs: SmoothVector) -> SmoothPoint {
-        SmoothPoint(control2: lhs.control2 + rhs.control2, p: lhs.p + rhs.v)
+        SmoothPoint(to: lhs.p + rhs.v, control2: lhs.control2 + rhs.control2)
     }
 
     @inlinable
     static func - (lhs: SmoothPoint, rhs: SmoothVector) -> SmoothPoint {
-        SmoothPoint(control2: lhs.control2 - rhs.control2, p: lhs.p - rhs.v)
+        SmoothPoint(to: lhs.p - rhs.v, control2: lhs.control2 - rhs.control2)
     }
 }

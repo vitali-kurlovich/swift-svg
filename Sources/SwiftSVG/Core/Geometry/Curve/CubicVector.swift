@@ -3,14 +3,15 @@
 //
 
 public struct CubicVector: Sendable, Hashable {
+    public var v: Vector
     public var control1: Vector
     public var control2: Vector
-    public var v: Vector
+   
 
     @inlinable
-    public init(v1: Vector, v2: Vector, v: Vector) {
-        control1 = v1
-        control2 = v2
+    public init(to v: Vector, control1: Vector, control2: Vector) {
+        self.control1 = control1
+        self.control2 = control2
         self.v = v
     }
 }

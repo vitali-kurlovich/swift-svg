@@ -143,7 +143,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 let cp2 = Point(x: x2, y: y2)
                 let p = Point(x: x, y: y)
 
-                points.append(CubicPoint(control1: cp1, control2: cp2, p: p))
+                points.append(CubicPoint(to: p, control1: cp1, control2: cp2))
             }
 
             return .cubic(points)
@@ -162,7 +162,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 let v2 = Vector(dx: dx2, dy: dy2)
                 let v = Vector(dx: dx, dy: dy)
 
-                offsets.append(CubicVector(v1: v1, v2: v2, v: v))
+                offsets.append(CubicVector(to: v, control1: v1, control2: v2))
             }
 
             return .cubicRelative(offsets)
@@ -179,7 +179,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 let cp2 = Point(x: x2, y: y2)
                 let p = Point(x: x, y: y)
 
-                points.append(SmoothPoint(control2: cp2, p: p))
+                points.append(SmoothPoint(to: p, control2: cp2))
             }
 
             return .smooth(points)
@@ -196,7 +196,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 let cv2 = Vector(dx: dx2, dy: dy2)
                 let v = Vector(dx: dx, dy: dy)
 
-                offsets.append(SmoothVector(control2: cv2, v: v))
+                offsets.append(SmoothVector(to: v, control2: cv2))
             }
 
             return .smoothRelative(offsets)
@@ -230,7 +230,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
                 let cv1 = Vector(dx: dx1, dy: dy1)
                 let v = Vector(dx: dx, dy: dy)
 
-                offsets.append(QuadraticVector(control1: cv1, v: v))
+                offsets.append(QuadraticVector(to: v, control1: cv1))
             }
 
             return .quadraticRelative(offsets)

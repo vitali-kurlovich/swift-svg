@@ -164,9 +164,7 @@ public extension PathBuilder {
 public extension PathBuilder {
     mutating func addCurve(_ offset: CubicVector) {
         let p = lastPoint + offset.v
-        let ps = CubicPoint(control1: p + offset.control1,
-                            control2: p + offset.control2,
-                            p: p)
+        let ps = CubicPoint(to: p, control1: p + offset.control1, control2: p + offset.control2)
         addCurve(ps)
     }
 
@@ -180,11 +178,7 @@ public extension PathBuilder {
         var p = lastPoint
         for offset in offsets {
             p += offset.v
-
-            let ps = CubicPoint(control1: p + offset.control1,
-                                control2: p + offset.control2,
-                                p: p)
-
+            let ps = CubicPoint(to: p, control1: p + offset.control1, control2: p + offset.control2)
             addCurve(ps)
         }
     }
@@ -199,7 +193,7 @@ public extension PathBuilder {
 
         let cp1 = p + v1
 
-        addCurve(CubicPoint(control1: cp1, control2: cp2, p: p))
+        addCurve(CubicPoint(to: p, control1: cp1, control2: cp2))
     }
 
     mutating func addCurves(_ points: some Sequence<SmoothPoint>) {
@@ -213,7 +207,7 @@ public extension PathBuilder {
         let cp2 = p + offset.control2
         let v1: Vector = cp2 - p
         let cp1 = p + v1
-        addCurve(CubicPoint(control1: cp1, control2: cp2, p: p))
+        addCurve(CubicPoint(to: p, control1: cp1, control2: cp2))
     }
 
     mutating func addCurves(_ offsets: some Sequence<SmoothVector>) {
@@ -381,7 +375,7 @@ public extension PathBuilder {
             let cp2 = transformPoint(x: uCP2.x, y: uCP2.y)
             let targetPoint = (i == numSegments - 1) ? endPoint : transformPoint(x: cos2, y: sin2)
 
-            addCurve(CubicPoint(control1: cp1, control2: cp2, p: targetPoint))
+            addCurve(CubicPoint(to: targetPoint, control1: cp1, control2: cp2))
         }
     }
 }

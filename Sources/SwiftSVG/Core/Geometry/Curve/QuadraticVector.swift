@@ -7,7 +7,7 @@ public struct QuadraticVector: Sendable, Hashable {
     public var v: Vector
 
     @inlinable
-    public init(control1: Vector, v: Vector) {
+    public init(to v: Vector, control1: Vector) {
         self.control1 = control1
         self.v = v
     }

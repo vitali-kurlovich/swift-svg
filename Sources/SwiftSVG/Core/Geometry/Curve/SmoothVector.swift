@@ -7,7 +7,7 @@ public struct SmoothVector: Sendable, Hashable {
     public var v: Vector
 
     @inlinable
-    public init(control2: Vector, v: Vector) {
+    public init(to v: Vector, control2: Vector) {
         self.control2 = control2
         self.v = v
     }

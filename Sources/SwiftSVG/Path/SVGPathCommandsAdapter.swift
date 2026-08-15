@@ -4,13 +4,13 @@
 
 import struct Foundation.CharacterSet
 
-public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
+public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
     public typealias Element = PathCommand
 
-    private var iterator: CommandIterator<S>
+    private var iterator: SVGPathCommandsIterator<S>
 
     init(_ string: S) {
-        iterator = CommandIterator(string)
+        iterator = SVGPathCommandsIterator(string)
     }
 
     public mutating func next() -> PathCommand? {

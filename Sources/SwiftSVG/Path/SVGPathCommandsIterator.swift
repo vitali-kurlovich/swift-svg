@@ -4,7 +4,7 @@
 
 import struct Foundation.CharacterSet
 
-struct CommandIterator<S: StringProtocol>: IteratorProtocol {
+struct SVGPathCommandsIterator<S: StringProtocol>: IteratorProtocol {
     var scanner: StringScanner<S>
 
     init(_ string: S) {
@@ -18,7 +18,7 @@ struct CommandIterator<S: StringProtocol>: IteratorProtocol {
             return nil
         }
 
-        guard let command = Command(rawValue: char) else {
+        guard let command = SVGPathCommand(rawValue: char) else {
             return nil
         }
 
@@ -28,7 +28,7 @@ struct CommandIterator<S: StringProtocol>: IteratorProtocol {
         )
     }
 
-    mutating func argsuments(for command: Command) -> [S.SubSequence] {
+    mutating func argsuments(for command: SVGPathCommand) -> [S.SubSequence] {
         if command == .z || command == .Z {
             return []
         }
@@ -54,9 +54,9 @@ struct CommandIterator<S: StringProtocol>: IteratorProtocol {
     }
 }
 
-extension CommandIterator {
+extension SVGPathCommandsIterator {
     struct PathElement: Equatable {
-        let command: Command
+        let command: SVGPathCommand
         let arguments: [S.SubSequence]
 
         func makeIterator() -> CommandArgumentsIterator {
@@ -91,8 +91,8 @@ extension CommandIterator {
     }
 }
 
-extension CommandIterator {
-    enum Command: Character {
+extension SVGPathCommandsIterator {
+    enum SVGPathCommand: Character {
         case M = "M"
         case m = "m"
 

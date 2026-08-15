@@ -9,7 +9,7 @@ public extension Path {
         self.init(SVGPathCommands(path))
     }
 
-    init(_ commands: SVGPathCommands) {
+    init(_ commands: some Sequence<PathCommand>) {
         self.init()
         execute(commands)
     }

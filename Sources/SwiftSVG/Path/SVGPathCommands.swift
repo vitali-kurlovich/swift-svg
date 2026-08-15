@@ -4,7 +4,7 @@
 
 public struct SVGPathCommands<S: StringProtocol>: Sequence {
     public typealias Element = PathCommand
-    public typealias Iterator = SVGPathCommandIterator<S>
+    public typealias Iterator = SVGPathCommandsAdapter<S>
 
     public let d: S
 

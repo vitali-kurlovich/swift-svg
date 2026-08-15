@@ -8,12 +8,12 @@ import Testing
 struct CommandsSequence<S: StringProtocol>: Sequence {
     let string: S
 
-    func makeIterator() -> CommandIterator<S> {
-        CommandIterator(string)
+    func makeIterator() -> SVGPathCommandsIterator<S> {
+        SVGPathCommandsIterator(string)
     }
 }
 
-typealias PathElement = CommandIterator<String>.PathElement
+typealias PathElement = SVGPathCommandsIterator<String>.PathElement
 
 struct CommandIteratorTest {
     @Test

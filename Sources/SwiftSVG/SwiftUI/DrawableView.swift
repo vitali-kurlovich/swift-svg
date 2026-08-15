@@ -19,18 +19,27 @@ public struct DrawableView: View, Equatable {
                 .fit(from: viewBox, to: CGRect(origin: .zero, size: size))
 
             var context = context
+
             context.transform = transform
+                .concatenating(context.transform)
 
             let render = CanvasRender(drawable: drawable)
             render.draw(context: context)
 
-        }.frame(width: viewBox.width, height: viewBox.height)
+        }.frame(idealWidth: viewBox.width,
+                idealHeight: viewBox.height)
     }
 }
 
 public extension DrawableView {
     init(_ container: DrawableContainer<CGAffineTransform, CGRect>) {
         self.init(viewBox: container.viewBox, drawable: container.drawable)
+    }
+}
+
+extension FillStyle {
+    init(_ rule: Fill.Rule, antialiased: Bool = true) {
+        self.init(eoFill: rule == .evenodd, antialiased: antialiased)
     }
 }
 
@@ -44,8 +53,9 @@ private struct CanvasRender {
     func draw(context: GraphicsContext, drawable: Drawable<CGAffineTransform>) {
         var context = context
 
-        if let transform = drawable.transform {
-            context.transform = context.transform.concatenating(transform)
+        if let transform = drawable.transform, transform.isIdentity == false {
+            context.transform = transform
+                .concatenating(context.transform)
         }
 
         let opacity = context.opacity
@@ -54,8 +64,14 @@ private struct CanvasRender {
             let style = drawable.style
 
             context.opacity = .init(style.fill.opacity.value)
+            context
+                .fill(
+                    path,
+                    with: .init(style.fill.shading),
+                    style: FillStyle(style.fill.rule),
+                )
 
-            context.fill(path, with: .init(style.fill.shading))
+            context.opacity = .init(style.stroke.opacity.value)
 
             // context.stroke(path, with: .color(.white))
         }
@@ -73,5 +89,7 @@ private struct CanvasRender {
 }
 
 #Preview {
-    DrawableView(SVGMOCData.bunnyContainer)
+    DrawableView(SVGMOCData.bunnyContainer).background {
+        Color.white
+    }
 }

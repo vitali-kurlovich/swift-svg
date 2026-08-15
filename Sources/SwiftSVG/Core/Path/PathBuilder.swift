@@ -380,7 +380,7 @@ public extension PathBuilder {
 }
 
 public extension PathBuilder {
-    mutating func execute(_ commands: some Sequence<SVGPathCommand>) {
+    mutating func execute(_ commands: some Sequence<PathCommand>) {
         for command in commands {
             apply(command)
         }
@@ -388,7 +388,7 @@ public extension PathBuilder {
 }
 
 private extension PathBuilder {
-    mutating func apply(_ command: SVGPathCommand) {
+    mutating func apply(_ command: PathCommand) {
         switch command {
         case let .move(point):
             move(to: point)

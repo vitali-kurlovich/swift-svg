@@ -19,7 +19,7 @@ public struct PathTag: SVGMutableElement, SVGStylable {
 
 public extension PathTag {
     @inlinable
-    var commands: SVGPathCommands {
+    var commands: SVGPathCommands<String> {
         SVGPathCommands(attributes["d"] ?? "")
     }
 }

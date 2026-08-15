@@ -2,7 +2,7 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-public enum SVGPathCommand {
+public enum PathCommand {
     case move(Point)
     case moveRelative(Vector)
 

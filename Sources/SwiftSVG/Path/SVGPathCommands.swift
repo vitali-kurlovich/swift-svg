@@ -2,13 +2,13 @@
 //  Created by Kurlovich Vitali on 8/15/26.
 //
 
-public struct SVGPathCommands: Sequence {
-    public typealias Element = SVGPathCommand
-    public typealias Iterator = SVGPathCommandIterator<String>
+public struct SVGPathCommands<S: StringProtocol>: Sequence {
+    public typealias Element = PathCommand
+    public typealias Iterator = SVGPathCommandIterator<S>
 
-    public let d: String
+    public let d: S
 
-    public init(_ string: String) {
+    public init(_ string: S) {
         d = string
     }
 

@@ -5,7 +5,7 @@
 import struct Foundation.CharacterSet
 
 public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
-    public typealias Element = SVGPathCommand
+    public typealias Element = PathCommand
 
     private var iterator: CommandIterator<S>
 
@@ -13,7 +13,7 @@ public struct SVGPathCommandIterator<S: StringProtocol>: IteratorProtocol {
         iterator = CommandIterator(string)
     }
 
-    public mutating func next() -> SVGPathCommand? {
+    public mutating func next() -> PathCommand? {
         guard let next = iterator.next() else {
             return nil
         }

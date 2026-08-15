@@ -5,12 +5,10 @@
 import SwiftUI
 
 public struct DrawableView: View, Equatable {
-    let viewBox: CGRect
-    let drawable: Drawable<CGAffineTransform>
+    let container: DrawableContainer<CGAffineTransform, CGRect>
 
-    public init(viewBox: CGRect, drawable: Drawable<CGAffineTransform>) {
-        self.viewBox = viewBox
-        self.drawable = drawable
+    public init(_ container: DrawableContainer<CGAffineTransform, CGRect>) {
+        self.container = container
     }
 
     public var body: some View {
@@ -31,9 +29,13 @@ public struct DrawableView: View, Equatable {
     }
 }
 
-public extension DrawableView {
-    init(_ container: DrawableContainer<CGAffineTransform, CGRect>) {
-        self.init(viewBox: container.viewBox, drawable: container.drawable)
+extension DrawableView {
+    var viewBox: CGRect {
+        container.viewBox
+    }
+
+    var drawable: Drawable<CGAffineTransform> {
+        container.drawable
     }
 }
 
@@ -89,7 +91,7 @@ private struct CanvasRender {
 }
 
 #Preview {
-    DrawableView(SVGMOCData.bunnyContainer).background {
-        Color.white
+    ScrollView([.horizontal, .vertical]) {
+        DrawableView(SVGMOCData.bunnyContainer)
     }
 }

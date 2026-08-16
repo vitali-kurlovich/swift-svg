@@ -53,3 +53,13 @@ public extension SolidColor {
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
+
+public extension SolidColor {
+    var isOpaque: Bool {
+        UInt8(truncatingIfNeeded: Int(alpha * 255)) == 255
+    }
+
+    var isСlear: Bool {
+        UInt8(truncatingIfNeeded: Int(alpha * 255)) == 0
+    }
+}

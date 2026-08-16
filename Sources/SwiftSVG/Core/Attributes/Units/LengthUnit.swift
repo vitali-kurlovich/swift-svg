@@ -22,3 +22,14 @@ extension LengthUnit: ExpressibleByFloatLiteral {
         self = .pixel(value)
     }
 }
+
+public extension LengthUnit {
+    var value: Double {
+        switch self {
+        case let .pixel(value):
+            value
+        case let .percent(value):
+            value
+        }
+    }
+}

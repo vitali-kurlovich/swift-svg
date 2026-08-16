@@ -18,3 +18,13 @@ public extension Style {
         .init()
     }
 }
+
+public extension Style {
+    var isOpaque: Bool {
+        fill.isOpaque && stroke.isOpaque
+    }
+
+    var isСlear: Bool {
+        fill.isСlear && stroke.isСlear
+    }
+}

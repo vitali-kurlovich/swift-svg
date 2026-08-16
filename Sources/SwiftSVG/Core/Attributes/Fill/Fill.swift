@@ -19,3 +19,13 @@ public extension Fill {
         .init(opacity: .default, shading: .default, rule: .default)
     }
 }
+
+public extension Fill {
+    var isOpaque: Bool {
+        shading.isOpaque && opacity.isOpaque
+    }
+
+    var isСlear: Bool {
+        shading.isСlear || opacity.isСlear
+    }
+}

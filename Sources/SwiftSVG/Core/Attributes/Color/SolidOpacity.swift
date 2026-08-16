@@ -21,3 +21,13 @@ extension SolidOpacity: ExpressibleByFloatLiteral {
         self.init(value: value)
     }
 }
+
+public extension SolidOpacity {
+    var isOpaque: Bool {
+        UInt8(truncatingIfNeeded: Int(value * 255)) == 255
+    }
+
+    var isСlear: Bool {
+        UInt8(truncatingIfNeeded: Int(value * 255)) == 0
+    }
+}

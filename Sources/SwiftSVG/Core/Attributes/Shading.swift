@@ -11,3 +11,19 @@ public extension Shading {
         .color(.black)
     }
 }
+
+public extension Shading {
+    var isOpaque: Bool {
+        switch self {
+        case let .color(color):
+            color.isOpaque
+        }
+    }
+
+    var isСlear: Bool {
+        switch self {
+        case let .color(color):
+            color.isСlear
+        }
+    }
+}

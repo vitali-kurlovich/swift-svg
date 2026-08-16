@@ -42,3 +42,13 @@ public extension Stroke {
         .init()
     }
 }
+
+public extension Stroke {
+    var isOpaque: Bool {
+        shading.isOpaque && shading.isOpaque
+    }
+
+    var isСlear: Bool {
+        shading.isСlear || opacity.isСlear || width.isСlear
+    }
+}

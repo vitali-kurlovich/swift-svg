@@ -17,3 +17,13 @@ public extension Stroke.Width {
         .init()
     }
 }
+
+public extension Stroke.Width {
+    var isOpaque: Bool {
+        value.value > 0
+    }
+
+    var isСlear: Bool {
+        value.value == 0
+    }
+}

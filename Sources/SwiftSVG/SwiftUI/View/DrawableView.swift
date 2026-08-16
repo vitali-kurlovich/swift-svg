@@ -21,8 +21,7 @@ public struct DrawableView: View, Equatable {
             context.transform = transform
                 .concatenating(context.transform)
 
-            let render = CanvasRender(drawable: drawable)
-            render.draw(context: context)
+            context.draw(drawable)
 
         }.frame(idealWidth: viewBox.width,
                 idealHeight: viewBox.height)
@@ -36,51 +35,6 @@ extension DrawableView {
 
     var drawable: Drawable<CGAffineTransform> {
         container.drawable
-    }
-}
-
-private struct CanvasRender {
-    let drawable: Drawable<CGAffineTransform>
-
-    func draw(context: GraphicsContext) {
-        draw(context: context, drawable: drawable)
-    }
-
-    private func draw(context: GraphicsContext, drawable: Drawable<CGAffineTransform>) {
-        var context = context
-
-        if let transform = drawable.transform, transform.isIdentity == false {
-            context.transform = transform
-                .concatenating(context.transform)
-        }
-
-        let opacity = context.opacity
-
-        if let path = drawable[Path.self] {
-            let style = drawable.style
-
-            context.opacity = .init(style.fill.opacity.value)
-            context
-                .fill(
-                    path,
-                    with: .init(style.fill.shading),
-                    style: FillStyle(style.fill.rule),
-                )
-
-            context.opacity = .init(style.stroke.opacity.value)
-
-            // context.stroke(path, with: .color(.white))
-        }
-
-        context.opacity = opacity
-
-        draw(context: context, drawables: drawable.childs)
-    }
-
-    private func draw(context: GraphicsContext, drawables: [Drawable<CGAffineTransform>]) {
-        for drawable in drawables {
-            draw(context: context, drawable: drawable)
-        }
     }
 }
 

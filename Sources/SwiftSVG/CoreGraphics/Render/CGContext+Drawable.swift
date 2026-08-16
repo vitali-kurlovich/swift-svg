@@ -1,7 +1,4 @@
 //
-//  CGContext+Drawable.swift
-//  swift-svg
-//
 //  Created by Kurlovich Vitali on 8/16/26.
 //
 

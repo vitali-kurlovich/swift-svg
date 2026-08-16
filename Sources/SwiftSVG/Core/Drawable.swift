@@ -2,15 +2,14 @@
 //  Created by Kurlovich Vitali on 8/14/26.
 //
 
-import Foundation
-
 public struct Drawable<Transform: Equatable & Sendable>: Equatable, Sendable {
     public let type: String
     public var style: Style
     public var transform: Transform?
-
-    public var attributes: [String: any(Equatable & Sendable)] = [:]
     public var childs: [Drawable<Transform>] = []
+
+    var attributes: [String: any(Equatable & Sendable)] = [:]
+    var attributesKeys: Set<String> = []
 
     public init(
         type: String,
@@ -26,19 +25,6 @@ public struct Drawable<Transform: Equatable & Sendable>: Equatable, Sendable {
 
     public static func == (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
         lhs.isEqual(to: rhs)
-    }
-}
-
-public extension Drawable {
-    subscript<T: Equatable & Sendable>(_ type: T.Type) -> T? {
-        get {
-            let key = String(describing: type)
-            return attributes[key] as? T
-        }
-        set {
-            let key = String(describing: type)
-            attributes[key] = newValue
-        }
     }
 }
 
@@ -70,10 +56,10 @@ public extension Drawable {
 extension Drawable {
     func isEqual(to other: Self) -> Bool {
         guard type == other.type,
+              attributesKeys == other.attributesKeys,
               style == other.style,
               transform == other.transform,
-              childs.count == other.childs.count,
-              attributes.keys.count == other.attributes.keys.count
+              childs.count == other.childs.count
         else {
             return false
         }

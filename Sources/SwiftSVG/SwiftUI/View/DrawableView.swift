@@ -39,7 +39,18 @@ extension DrawableView {
 }
 
 #Preview {
+    @Previewable @GestureState
+    var scaleFactor: CGFloat = 1.0
+
     ScrollView([.horizontal, .vertical]) {
         DrawableView(SVGMOCData.bunnyContainer)
-    }
+            .frame(width: 800 * scaleFactor, height: 800 * scaleFactor)
+            .offset(x: (800 - 800 * scaleFactor) / 2, y: (500 - 800 * scaleFactor) / 2)
+
+    }.frame(width: 800, height: 600).gesture(
+        MagnifyGesture()
+            .updating($scaleFactor) { value, gestureState, _ in
+                gestureState = value.magnification
+            },
+    )
 }

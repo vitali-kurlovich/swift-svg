@@ -2,6 +2,8 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
+import MathKit
+
 public struct VerticalPoint: Sendable, Hashable {
     public var y: Double
 

@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import MathKit
 
 public protocol PathBuilder {
     var lastPoint: Point { get }
@@ -188,7 +189,7 @@ public extension PathBuilder {
         let p = point.target
         let cp2 = point.control2
 
-        let v1: Vector = cp2 - p
+        let v1 = cp2 - p
 
         let cp1 = p + v1
 
@@ -204,7 +205,7 @@ public extension PathBuilder {
     mutating func addCurve(_ offset: SmoothVector) {
         let target = lastPoint + offset.target
         let cp2 = target + offset.control2
-        let v1: Vector = cp2 - target
+        let v1 = cp2 - target
         let cp1 = target + v1
         addCurve(CubicPoint(to: target, control1: cp1, control2: cp2))
     }

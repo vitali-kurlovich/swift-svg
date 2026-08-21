@@ -2,6 +2,8 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
+import MathKit
+
 public struct SmoothPoint: Sendable, Hashable {
     public var target: Point
     public var control2: Point

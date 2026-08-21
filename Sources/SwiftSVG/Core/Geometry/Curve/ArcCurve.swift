@@ -2,6 +2,8 @@
 //  Created by Kurlovich Vitali on 8/12/26.
 //
 
+import MathKit
+
 public struct ArcCurve: Sendable, Hashable {
     public var radius: Size
     public var end: Point
@@ -64,24 +66,5 @@ public struct ArcTangentCurve: Sendable, Hashable {
         self.radius = radius
         self.tangent1 = tangent1
         self.tangent2 = tangent2
-    }
-}
-
-import Foundation
-
-extension ArcTangentCurve {
-    init(current: Point, arc: ArcCurve) {
-        let r = arc.radius.width
-
-        let p0 = current
-        let p2 = arc.end
-
-        let dd: Vector = p2 - p0
-
-        let D = (dd.dx * dd.dx + dd.dy * dd.dy).squareRoot()
-
-        let alpha = asin(D / (2 * r))
-
-        self.init(radius: r, tangent1: .zero, tangent2: .zero)
     }
 }

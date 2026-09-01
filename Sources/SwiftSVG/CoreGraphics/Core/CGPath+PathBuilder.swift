@@ -13,11 +13,11 @@ extension CGMutablePath: PathBuilder {
     }
 
     public func move(to point: Point) {
-        move(to: .init(point))
+        move(to: CGPoint(point))
     }
 
     public func addLine(to point: Point) {
-        addLine(to: .init(point))
+        addLine(to: CGPoint(point))
     }
 
     public func addCurve(_ point: CubicPoint) {

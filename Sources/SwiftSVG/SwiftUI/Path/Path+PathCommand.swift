@@ -3,6 +3,7 @@
 //
 
 import struct SwiftUI.Path
+import struct CoreGraphics.CGPoint
 
 public extension Path {
     init(path: String) {
@@ -21,18 +22,18 @@ extension Path: PathBuilder {
     }
 
     public mutating func move(to point: Point) {
-        move(to: .init(point))
+        move(to: CGPoint(point))
     }
 
     public mutating func addLine(to point: Point) {
-        addLine(to: .init(point))
+        addLine(to: CGPoint(point))
     }
 
     public mutating func addCurve(_ points: CubicPoint) {
-        addCurve(to: .init(points.target), control1: .init(points.control1), control2: .init(points.control2))
+        addCurve(to: CGPoint(points.target), control1: CGPoint(points.control1), control2: CGPoint(points.control2))
     }
 
     public mutating func addQuadCurve(_ point: QuadraticPoint) {
-        addQuadCurve(to: .init(point.target), control: .init(point.control1))
+        addQuadCurve(to: CGPoint(point.target), control: CGPoint(point.control1))
     }
 }

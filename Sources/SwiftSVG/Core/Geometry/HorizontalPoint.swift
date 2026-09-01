@@ -2,7 +2,7 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-import MathKit
+import CoreGraphics
 
 public struct HorizontalPoint: Sendable, Hashable {
     public var x: Double
@@ -41,14 +41,14 @@ public extension HorizontalPoint {
     }
 }
 
-public extension Point {
+public extension CGPoint {
     @inlinable
-    static func + (lhs: Point, rhs: HorizontalVector) -> Point {
+    static func + (lhs: Self, rhs: HorizontalVector) -> Self {
         .init(x: lhs.x + rhs.dx, y: lhs.y)
     }
 
     @inlinable
-    static func - (lhs: Point, rhs: HorizontalVector) -> Point {
+    static func - (lhs: Self, rhs: HorizontalVector) -> Self {
         .init(x: lhs.x - rhs.dx, y: lhs.y)
     }
 }

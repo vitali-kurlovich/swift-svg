@@ -2,8 +2,8 @@
 //  Created by Kurlovich Vitali on 8/5/26.
 //
 
-import struct SwiftUI.Path
 import struct CoreGraphics.CGPoint
+import struct SwiftUI.Path
 
 public extension Path {
     init(path: String) {
@@ -17,23 +17,15 @@ public extension Path {
 }
 
 extension Path: PathBuilder {
-    public var lastPoint: Point {
-        Point(currentPoint ?? .zero)
-    }
-
-    public mutating func move(to point: Point) {
-        move(to: CGPoint(point))
-    }
-
-    public mutating func addLine(to point: Point) {
-        addLine(to: CGPoint(point))
+    public var lastPoint: CGPoint {
+        currentPoint ?? .zero
     }
 
     public mutating func addCurve(_ points: CubicPoint) {
-        addCurve(to: CGPoint(points.target), control1: CGPoint(points.control1), control2: CGPoint(points.control2))
+        addCurve(to: points.target, control1: points.control1, control2: points.control2)
     }
 
     public mutating func addQuadCurve(_ point: QuadraticPoint) {
-        addQuadCurve(to: CGPoint(point.target), control: CGPoint(point.control1))
+        addQuadCurve(to: point.target, control: point.control1)
     }
 }

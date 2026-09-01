@@ -2,20 +2,20 @@
 //  Created by Kurlovich Vitali on 8/12/26.
 //
 
+import CGMathKit
 import Foundation
-import MathKit
 
 public protocol PathBuilder {
-    var lastPoint: Point { get }
+    var lastPoint: CGPoint { get }
 
-    mutating func move(to point: Point)
-    mutating func move(by offset: Vector)
+    mutating func move(to point: CGPoint)
+    mutating func move(by offset: CGVector)
 
-    mutating func addLine(to point: Point)
-    mutating func addLines(_ points: some Sequence<Point>)
+    mutating func addLine(to point: CGPoint)
+    mutating func addLines(_ points: some Sequence<CGPoint>)
 
-    mutating func addLine(by offset: Vector)
-    mutating func addLines(_ offsets: some Sequence<Vector>)
+    mutating func addLine(by offset: CGVector)
+    mutating func addLines(_ offsets: some Sequence<CGVector>)
 
     mutating func addLine(to horizontal: HorizontalPoint)
     mutating func addLine(by horizontal: HorizontalVector)
@@ -38,11 +38,11 @@ public protocol PathBuilder {
     mutating func addQuadCurve(_ offset: QuadraticVector)
     mutating func addQuadCurves(_ offsets: some Sequence<QuadraticVector>)
 
-    mutating func addQuadCurve(_ point: Point)
-    mutating func addQuadCurves(_ points: some Sequence<Point>)
+    mutating func addQuadCurve(_ point: CGPoint)
+    mutating func addQuadCurves(_ points: some Sequence<CGPoint>)
 
-    mutating func addQuadCurve(_ offset: Vector)
-    mutating func addQuadCurves(_ offsets: some Sequence<Vector>)
+    mutating func addQuadCurve(_ offset: CGVector)
+    mutating func addQuadCurves(_ offsets: some Sequence<CGVector>)
 
     mutating func addArc(_ arc: ArcCurve)
     mutating func addArcs(_ arcs: some Sequence<ArcCurve>)
@@ -79,26 +79,26 @@ public extension PathBuilder {
 
 // TODO: Fix control point
 public extension PathBuilder {
-    mutating func addQuadCurve(_ target: Point) {
+    mutating func addQuadCurve(_ target: CGPoint) {
         let cp1 = target
 
         addQuadCurve(QuadraticPoint(to: target, control1: cp1))
     }
 
-    mutating func addQuadCurves(_ points: some Sequence<Point>) {
+    mutating func addQuadCurves(_ points: some Sequence<CGPoint>) {
         for point in points {
             addQuadCurve(point)
         }
     }
 
-    mutating func addQuadCurve(_ offset: Vector) {
+    mutating func addQuadCurve(_ offset: CGVector) {
         let target = lastPoint + offset
         let cp1 = target
 
         addQuadCurve(QuadraticPoint(to: target, control1: cp1))
     }
 
-    mutating func addQuadCurves(_ offsets: some Sequence<Vector>) {
+    mutating func addQuadCurves(_ offsets: some Sequence<CGVector>) {
         for offset in offsets {
             addQuadCurve(offset)
         }
@@ -106,25 +106,25 @@ public extension PathBuilder {
 }
 
 public extension PathBuilder {
-    mutating func move(by offset: Vector) {
+    mutating func move(by offset: CGVector) {
         let point = lastPoint + offset
         move(to: point)
     }
 }
 
 public extension PathBuilder {
-    mutating func addLine(by offset: Vector) {
+    mutating func addLine(by offset: CGVector) {
         let point = lastPoint + offset
         addLine(to: point)
     }
 
-    mutating func addLines(_ points: some Sequence<Point>) {
+    mutating func addLines(_ points: some Sequence<CGPoint>) {
         for point in points {
             addLine(to: point)
         }
     }
 
-    mutating func addLines(_ offsets: some Sequence<Vector>) {
+    mutating func addLines(_ offsets: some Sequence<CGVector>) {
         var point = lastPoint
 
         for offset in offsets {
@@ -261,7 +261,7 @@ public extension PathBuilder {
         var ry = abs(arc.radius.height)
 
         let currentPoint = lastPoint
-        let endPoint: Point = arc.end
+        let endPoint: CGPoint = arc.end
         // Degenerate cases: radii are 0 or start == end -> draw a line segment
         guard rx > 0, ry > 0, currentPoint != endPoint else {
             addLine(to: endPoint)
@@ -351,12 +351,12 @@ public extension PathBuilder {
         let segmentAngle = deltaAngle / CGFloat(numSegments)
         let k = (4.0 / 3.0) * tan(segmentAngle / 4.0)
 
-        func transformPoint(x: Double, y: Double) -> Point {
+        func transformPoint(x: Double, y: Double) -> CGPoint {
             let scaledX = x * rx
             let scaledY = y * ry
             let rotatedX = cosPhi * scaledX - sinPhi * scaledY
             let rotatedY = sinPhi * scaledX + cosPhi * scaledY
-            return Point(x: rotatedX + center.x, y: rotatedY + center.y)
+            return CGPoint(x: rotatedX + center.x, y: rotatedY + center.y)
         }
 
         for i in 0 ..< numSegments {
@@ -367,8 +367,8 @@ public extension PathBuilder {
             let cos2 = cos(a2), sin2 = sin(a2)
 
             // Unit circle control points
-            let uCP1 = Point(x: cos1 - k * sin1, y: sin1 + k * cos1)
-            let uCP2 = Point(x: cos2 + k * sin2, y: sin2 - k * cos2)
+            let uCP1 = CGPoint(x: cos1 - k * sin1, y: sin1 + k * cos1)
+            let uCP2 = CGPoint(x: cos2 + k * sin2, y: sin2 - k * cos2)
 
             // Map back to ellipse coordinate space
             let cp1 = transformPoint(x: uCP1.x, y: uCP1.y)

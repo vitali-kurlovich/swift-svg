@@ -2,14 +2,15 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-import MathKit
+import CGMathKit
+import CoreGraphics
 
 public struct SmoothPoint: Sendable, Hashable {
-    public var target: Point
-    public var control2: Point
+    public var target: CGPoint
+    public var control2: CGPoint
 
     @inlinable
-    public init(to target: Point, control2: Point) {
+    public init(to target: CGPoint, control2: CGPoint) {
         self.target = target
         self.control2 = control2
     }

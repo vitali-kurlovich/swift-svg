@@ -2,19 +2,19 @@
 //  Created by Kurlovich Vitali on 8/12/26.
 //
 
-import MathKit
+import CoreGraphics
 
 public struct ArcCurve: Sendable, Hashable {
-    public var radius: Size
-    public var end: Point
+    public var radius: CGSize
+    public var end: CGPoint
 
     public var angle: Double
 
     public var options: ArcCurveOptions
 
     public init(
-        radius: Size,
-        end: Point,
+        radius: CGSize,
+        end: CGPoint,
         angle: Double,
         options: ArcCurveOptions,
     ) {
@@ -26,16 +26,16 @@ public struct ArcCurve: Sendable, Hashable {
 }
 
 public struct ArcOffsetCurve: Sendable, Hashable {
-    public var radius: Size
-    public var end: Vector
+    public var radius: CGSize
+    public var end: CGVector
 
     public var angle: Double
 
     public var options: ArcCurveOptions
 
     public init(
-        radius: Size,
-        end: Vector,
+        radius: CGSize,
+        end: CGVector,
         angle: Double,
         options: ArcCurveOptions,
     ) {
@@ -59,10 +59,10 @@ public struct ArcCurveOptions: OptionSet, Sendable, Hashable {
 
 public struct ArcTangentCurve: Sendable, Hashable {
     public var radius: Double
-    public var tangent1: Point
-    public var tangent2: Point
+    public var tangent1: CGPoint
+    public var tangent2: CGPoint
 
-    public init(radius: Double, tangent1: Point, tangent2: Point) {
+    public init(radius: Double, tangent1: CGPoint, tangent2: CGPoint) {
         self.radius = radius
         self.tangent1 = tangent1
         self.tangent2 = tangent2

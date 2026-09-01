@@ -2,6 +2,7 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
+import CoreGraphics
 import struct Foundation.CharacterSet
 
 public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
@@ -32,7 +33,7 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
                 return nil
             }
 
-            return .move(Point(x: x, y: y))
+            return .move(CGPoint(x: x, y: y))
 
         case .m:
             var iterator = next.makeIterator()
@@ -44,10 +45,10 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
                 return nil
             }
 
-            return .moveRelative(Vector(dx: dx, dy: dy))
+            return .moveRelative(CGVector(dx: dx, dy: dy))
 
         case .L:
-            var points: [Point] = []
+            var points: [CGPoint] = []
 
             points.reserveCapacity(count)
             var iterator = next.makeIterator()
@@ -55,20 +56,20 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
             while let x = iterator.nextDouble(),
                   let y = iterator.nextDouble()
             {
-                points.append(Point(x: x, y: y))
+                points.append(CGPoint(x: x, y: y))
             }
 
             return .line(points)
 
         case .l:
-            var offsets: [Vector] = []
+            var offsets: [CGVector] = []
             offsets.reserveCapacity(count)
             var iterator = next.makeIterator()
 
             while let dx = iterator.nextDouble(),
                   let dy = iterator.nextDouble()
             {
-                offsets.append(Vector(dx: dx, dy: dy))
+                offsets.append(CGVector(dx: dx, dy: dy))
             }
 
             return .lineRelative(offsets)
@@ -139,9 +140,9 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
                   let x2 = iterator.nextDouble(), let y2 = iterator.nextDouble(),
                   let x = iterator.nextDouble(), let y = iterator.nextDouble()
             {
-                let cp1 = Point(x: x1, y: y1)
-                let cp2 = Point(x: x2, y: y2)
-                let p = Point(x: x, y: y)
+                let cp1 = CGPoint(x: x1, y: y1)
+                let cp2 = CGPoint(x: x2, y: y2)
+                let p = CGPoint(x: x, y: y)
 
                 points.append(CubicPoint(to: p, control1: cp1, control2: cp2))
             }
@@ -158,9 +159,9 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
                   let dx2 = iterator.nextDouble(), let dy2 = iterator.nextDouble(),
                   let dx = iterator.nextDouble(), let dy = iterator.nextDouble()
             {
-                let v1 = Vector(dx: dx1, dy: dy1)
-                let v2 = Vector(dx: dx2, dy: dy2)
-                let v = Vector(dx: dx, dy: dy)
+                let v1 = CGVector(dx: dx1, dy: dy1)
+                let v2 = CGVector(dx: dx2, dy: dy2)
+                let v = CGVector(dx: dx, dy: dy)
 
                 offsets.append(CubicVector(to: v, control1: v1, control2: v2))
             }
@@ -176,8 +177,8 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
             while let x2 = iterator.nextDouble(), let y2 = iterator.nextDouble(),
                   let x = iterator.nextDouble(), let y = iterator.nextDouble()
             {
-                let cp2 = Point(x: x2, y: y2)
-                let p = Point(x: x, y: y)
+                let cp2 = CGPoint(x: x2, y: y2)
+                let p = CGPoint(x: x, y: y)
 
                 points.append(SmoothPoint(to: p, control2: cp2))
             }
@@ -193,8 +194,8 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
             while let dx2 = iterator.nextDouble(), let dy2 = iterator.nextDouble(),
                   let dx = iterator.nextDouble(), let dy = iterator.nextDouble()
             {
-                let cv2 = Vector(dx: dx2, dy: dy2)
-                let v = Vector(dx: dx, dy: dy)
+                let cv2 = CGVector(dx: dx2, dy: dy2)
+                let v = CGVector(dx: dx, dy: dy)
 
                 offsets.append(SmoothVector(to: v, control2: cv2))
             }
@@ -210,8 +211,8 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
             while let x1 = iterator.nextDouble(), let y1 = iterator.nextDouble(),
                   let x = iterator.nextDouble(), let y = iterator.nextDouble()
             {
-                let cp1 = Point(x: x1, y: y1)
-                let target = Point(x: x, y: y)
+                let cp1 = CGPoint(x: x1, y: y1)
+                let target = CGPoint(x: x, y: y)
 
                 points.append(QuadraticPoint(to: target, control1: cp1))
             }
@@ -227,8 +228,8 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
             while let dx1 = iterator.nextDouble(), let dy1 = iterator.nextDouble(),
                   let dx = iterator.nextDouble(), let dy = iterator.nextDouble()
             {
-                let cv1 = Vector(dx: dx1, dy: dy1)
-                let v = Vector(dx: dx, dy: dy)
+                let cv1 = CGVector(dx: dx1, dy: dy1)
+                let v = CGVector(dx: dx, dy: dy)
 
                 offsets.append(QuadraticVector(to: v, control1: cv1))
             }
@@ -236,25 +237,25 @@ public struct SVGPathCommandsAdapter<S: StringProtocol>: IteratorProtocol {
             return .quadraticRelative(offsets)
 
         case .T:
-            var points: [Point] = []
+            var points: [CGPoint] = []
             points.reserveCapacity(count)
 
             var iterator = next.makeIterator()
 
             while let x = iterator.nextDouble(), let y = iterator.nextDouble() {
-                points.append(Point(x: x, y: y))
+                points.append(CGPoint(x: x, y: y))
             }
 
             return .smoothQuadratic(points)
 
         case .t:
-            var offsets: [Vector] = []
+            var offsets: [CGVector] = []
             offsets.reserveCapacity(count)
 
             var iterator = next.makeIterator()
 
             while let dx = iterator.nextDouble(), let dy = iterator.nextDouble() {
-                offsets.append(Vector(dx: dx, dy: dy))
+                offsets.append(CGVector(dx: dx, dy: dy))
             }
 
             return .smoothQuadraticRelative(offsets)

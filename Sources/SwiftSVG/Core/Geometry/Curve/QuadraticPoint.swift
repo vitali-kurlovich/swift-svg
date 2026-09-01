@@ -2,14 +2,15 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-import MathKit
+import CGMathKit
+import CoreGraphics
 
 public struct QuadraticPoint: Sendable, Hashable {
-    public var target: Point
-    public var control1: Point
+    public var target: CGPoint
+    public var control1: CGPoint
 
     @inlinable
-    public init(to target: Point, control1: Point) {
+    public init(to target: CGPoint, control1: CGPoint) {
         self.target = target
         self.control1 = control1
     }

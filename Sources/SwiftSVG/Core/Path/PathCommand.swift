@@ -2,12 +2,14 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-public enum PathCommand {
-    case move(Point)
-    case moveRelative(Vector)
+import CoreGraphics
 
-    case line([Point])
-    case lineRelative([Vector])
+public enum PathCommand {
+    case move(CGPoint)
+    case moveRelative(CGVector)
+
+    case line([CGPoint])
+    case lineRelative([CGVector])
 
     case horizontal(HorizontalPoint)
     case horizontalRelative(HorizontalVector)
@@ -24,8 +26,8 @@ public enum PathCommand {
     case quadratic([QuadraticPoint])
     case quadraticRelative([QuadraticVector])
 
-    case smoothQuadratic([Point])
-    case smoothQuadraticRelative([Vector])
+    case smoothQuadratic([CGPoint])
+    case smoothQuadraticRelative([CGVector])
 
     case arc([ArcCurve])
     case arcRelative([ArcOffsetCurve])

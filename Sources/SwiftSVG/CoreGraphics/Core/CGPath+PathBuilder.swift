@@ -1,37 +1,34 @@
 //
-//  CGPath+PathBuilder.swift
-//  swift-svg
-//
 //  Created by Kurlovich Vitali on 8/15/26.
 //
 
 import CoreGraphics
 
 extension CGMutablePath: PathBuilder {
-    public var lastPoint: Point {
-        Point(currentPoint)
+    public var lastPoint: CGPoint {
+        currentPoint
     }
 
-    public func move(to point: Point) {
-        move(to: CGPoint(point))
+    public func move(to point: CGPoint) {
+        move(to: point, transform: .identity)
     }
 
-    public func addLine(to point: Point) {
-        addLine(to: CGPoint(point))
+    public func addLine(to point: CGPoint) {
+        addLine(to: point, transform: .identity)
     }
 
     public func addCurve(_ point: CubicPoint) {
         addCurve(
-            to: .init(point.target),
-            control1: .init(point.control1),
-            control2: .init(point.control2),
+            to: point.target,
+            control1: point.control1,
+            control2: point.control2,
         )
     }
 
     public func addQuadCurve(_ point: QuadraticPoint) {
         addQuadCurve(
-            to: .init(point.target),
-            control: .init(point.control1),
+            to: point.target,
+            control: point.control1,
         )
     }
 }

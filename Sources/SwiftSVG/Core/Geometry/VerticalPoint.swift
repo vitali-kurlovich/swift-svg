@@ -2,7 +2,8 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-import MathKit
+import CoreFoundation
+import CoreGraphics
 
 public struct VerticalPoint: Sendable, Hashable {
     public var y: Double
@@ -41,14 +42,14 @@ public extension VerticalPoint {
     }
 }
 
-public extension Point {
+public extension CGPoint {
     @inlinable
-    static func + (lhs: Point, rhs: VerticalVector) -> Point {
+    static func + (lhs: Self, rhs: VerticalVector) -> Self {
         .init(x: lhs.x, y: lhs.y + rhs.dy)
     }
 
     @inlinable
-    static func - (lhs: Point, rhs: VerticalVector) -> Point {
+    static func - (lhs: Self, rhs: VerticalVector) -> Self {
         .init(x: lhs.x, y: lhs.y - rhs.dy)
     }
 }

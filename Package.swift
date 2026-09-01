@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swiftlang/swift-docc-plugin", from: "1.0.0"),
-        .package(url: "https://github.com/vitali-kurlovich/swift-mathkit", from: "0.13.0"),
+        .package(url: "https://github.com/vitali-kurlovich/swift-mathkit", from: "0.14.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -28,6 +28,7 @@ let package = Package(
             name: "SwiftSVG",
             dependencies: [
                 .product(name: "MathKit", package: "swift-mathkit"),
+                .product(name: "CGMathKit", package: "swift-mathkit"),
             ],
 
         ),

@@ -2,9 +2,8 @@
 //  Created by Kurlovich Vitali on 8/15/26.
 //
 
-import SwiftUI
 import MathKit
-
+import SwiftUI
 
 public struct DrawableView: View, Equatable {
     let container: DrawableContainer<CGAffineTransform, CGRect>
@@ -15,13 +14,12 @@ public struct DrawableView: View, Equatable {
 
     public var body: some View {
         Canvas {
- context,
+            context,
             size in
             let transform = CGAffineTransform.transform(
                 for: viewBox,
-                aspectFit:  CGRect(origin: .zero, size: size)
+                aspectFit: CGRect(origin: .zero, size: size),
             )
-            
 
             var context = context
 
@@ -52,7 +50,6 @@ extension DrawableView {
     ScrollView([.horizontal, .vertical]) {
         DrawableView(SVGMOCData.bunnyContainer)
             .frame(width: 800 * scaleFactor, height: 800 * scaleFactor)
-          
 
     }.frame(width: 800, height: 600).gesture(
         MagnifyGesture()

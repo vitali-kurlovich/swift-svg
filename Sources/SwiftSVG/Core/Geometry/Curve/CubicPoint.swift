@@ -2,15 +2,16 @@
 //  Created by Kurlovich Vitali on 8/4/26.
 //
 
-import MathKit
+import CGMathKit
+import CoreGraphics
 
 public struct CubicPoint: Sendable, Hashable {
-    public var target: Point
-    public var control1: Point
-    public var control2: Point
+    public var target: CGPoint
+    public var control1: CGPoint
+    public var control2: CGPoint
 
     @inlinable
-    public init(to target: Point, control1: Point, control2: Point) {
+    public init(to target: CGPoint, control1: CGPoint, control2: CGPoint) {
         self.target = target
         self.control1 = control1
         self.control2 = control2

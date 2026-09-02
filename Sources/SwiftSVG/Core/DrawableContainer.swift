@@ -2,11 +2,13 @@
 //  Created by Kurlovich Vitali on 8/15/26.
 //
 
-public struct DrawableContainer<Transform: Equatable & Sendable, Rect: Equatable & Sendable>: Equatable, Sendable {
-    public var viewBox: Rect
-    public var drawable: Drawable<Transform>
+import CoreGraphics
 
-    public init(viewBox: Rect, drawable: Drawable<Transform>) {
+public struct DrawableContainer: Equatable, Sendable {
+    public var viewBox: CGRect
+    public var drawable: Drawable
+
+    public init(viewBox: CGRect, drawable: Drawable) {
         self.viewBox = viewBox
         self.drawable = drawable
     }

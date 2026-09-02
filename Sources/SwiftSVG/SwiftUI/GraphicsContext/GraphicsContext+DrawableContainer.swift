@@ -10,7 +10,7 @@ import struct SwiftUI.GraphicsContext
 import struct SwiftUI.Path
 
 public extension GraphicsContext {
-    func draw(_ drawable: Drawable<CGAffineTransform>) {
+    func draw(_ drawable: Drawable) {
         withCGContext { context in
             context.draw(drawable)
         }

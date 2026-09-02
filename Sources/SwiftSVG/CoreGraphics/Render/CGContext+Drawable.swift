@@ -9,7 +9,7 @@ import enum CoreGraphics.CGPathFillRule
 
 public extension CGContext {
     func draw(
-        _ drawable: Drawable<CGAffineTransform>,
+        _ drawable: Drawable,
     ) {
         let render = DrawableRender()
         render.draw(context: self, drawable: drawable)
@@ -19,7 +19,7 @@ public extension CGContext {
 private struct DrawableRender {}
 
 extension DrawableRender {
-    func draw(context: CGContext, drawable: Drawable<CGAffineTransform>) {
+    func draw(context: CGContext, drawable: Drawable) {
         let style = drawable.style
 
         if drawable.childs.isEmpty, style.isСlear {
@@ -56,7 +56,7 @@ extension DrawableRender {
         draw(context: context, drawables: drawable.childs)
     }
 
-    private func draw(context: CGContext, drawables: [Drawable<CGAffineTransform>]) {
+    private func draw(context: CGContext, drawables: [Drawable]) {
         for drawable in drawables {
             draw(context: context, drawable: drawable)
         }

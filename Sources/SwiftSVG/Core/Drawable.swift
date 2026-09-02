@@ -2,11 +2,13 @@
 //  Created by Kurlovich Vitali on 8/14/26.
 //
 
-public struct Drawable<Transform: Equatable & Sendable>: Equatable, Sendable {
+import CoreGraphics
+
+public struct Drawable: Equatable, Sendable {
     public let type: String
     public var style: Style
-    public var transform: Transform?
-    public var childs: [Drawable<Transform>] = []
+    public var transform: CGAffineTransform?
+    public var childs: [Drawable] = []
 
     var attributes: [String: any(Equatable & Sendable)] = [:]
     var attributesKeys: Set<String> = []
@@ -14,8 +16,8 @@ public struct Drawable<Transform: Equatable & Sendable>: Equatable, Sendable {
     public init(
         type: String,
         style: Style = .default,
-        transform: Transform? = nil,
-        childs: [Drawable<Transform>] = [],
+        transform: CGAffineTransform? = nil,
+        childs: [Drawable] = [],
     ) {
         self.type = type
         self.style = style
@@ -32,8 +34,8 @@ public extension Drawable {
     init<T: Equatable & Sendable>(
         _: T.Type,
         style: Style = .default,
-        transform: Transform? = nil,
-        childs: [Drawable<Transform>] = [],
+        transform: CGAffineTransform? = nil,
+        childs: [Drawable] = [],
     ) {
         self.init(type: String(describing: T.self), style: style, transform: transform, childs: childs)
     }
@@ -41,8 +43,8 @@ public extension Drawable {
     init<D: Equatable & Sendable>(
         _ data: D,
         style: Style = .default,
-        transform: Transform? = nil,
-        childs: [Drawable<Transform>] = [],
+        transform: CGAffineTransform? = nil,
+        childs: [Drawable] = [],
     ) {
         self.init(D.self, style: style, transform: transform, childs: childs)
         self[D.self] = data

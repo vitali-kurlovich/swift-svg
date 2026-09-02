@@ -5,7 +5,7 @@
 import Foundation
 
 enum SVGMOCData {
-    static var bunnyContainer: DrawableContainer<CGAffineTransform, CGRect> {
+    static var bunnyContainer: DrawableContainer {
         let factory = DrawableContainerFactory(
             factory: CoreDrawableFactory(options: [.cgPath]),
         )

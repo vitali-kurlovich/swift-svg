@@ -8,15 +8,15 @@ import struct SwiftUI.Path
 
 extension CGPath: @unchecked @retroactive Sendable {}
 
-public struct CoreDrawableFactory<Transform: Equatable & Sendable>: DrawableFactory {
+public struct CoreDrawableFactory: DrawableFactory {
     var options: Options
 
     public init(options: Options = [.cgPath, .path]) {
         self.options = options
     }
 
-    public func pathDrawable(commands: some Sequence<PathCommand>, style: Style, transform: Transform?) -> Drawable<Transform> {
-        var drawable = Drawable<Transform>.path(
+    public func pathDrawable(commands: some Sequence<PathCommand>, style: Style, transform: CGAffineTransform?) -> Drawable {
+        var drawable = Drawable.path(
             style: style,
             transform: transform,
         )

@@ -2,6 +2,8 @@
 //  Created by Kurlovich Vitali on 8/14/26.
 //
 
+import CoreGraphics
+
 public enum DrawableGroup: Equatable, Sendable {}
 
 public enum DrawablePath: Equatable, Sendable {}
@@ -12,8 +14,8 @@ public extension Drawable {
     }
 
     static func group(style: Style,
-                      transform: Transform? = nil,
-                      childs: [Drawable<Transform>] = []) -> Self
+                      transform: CGAffineTransform? = nil,
+                      childs: [Drawable] = []) -> Self
     {
         .init(DrawableGroup.self, style: style, transform: transform, childs: childs)
     }
@@ -25,8 +27,8 @@ public extension Drawable {
     }
 
     static func path(style: Style,
-                     transform: Transform? = nil,
-                     childs: [Drawable<Transform>] = []) -> Self
+                     transform: CGAffineTransform? = nil,
+                     childs: [Drawable] = []) -> Self
     {
         .init(DrawablePath.self, style: style, transform: transform, childs: childs)
     }

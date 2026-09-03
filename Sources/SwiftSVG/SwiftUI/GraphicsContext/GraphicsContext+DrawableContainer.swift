@@ -10,9 +10,9 @@ import struct SwiftUI.GraphicsContext
 import struct SwiftUI.Path
 
 public extension GraphicsContext {
-    func draw(_ drawable: Drawable) {
+    func draw(_ drawable: Drawable, bounds: CGRect) {
         withCGContext { context in
-            context.draw(drawable)
+            context.draw(drawable, bounds: bounds)
         }
     }
 }

@@ -11,7 +11,7 @@ public struct DrawableView: View, Equatable {
 
     public init(
         _ container: DrawableContainer,
-        mode: ViewMode = .fill,
+        mode: ViewMode = .aspectFit,
     ) {
         self.container = container
         self.mode = mode
@@ -24,7 +24,7 @@ public struct DrawableView: View, Equatable {
             context.transform = viewTransform(with: size)
                 .concatenating(context.transform)
 
-            context.draw(drawable)
+            context.draw(drawable, bounds: viewBox)
 
         }.frame(idealWidth: viewBox.width,
                 idealHeight: viewBox.height)
@@ -80,7 +80,7 @@ private extension DrawableView {
     var scaleFactor: CGFloat = 1.0
 
     ScrollView([.horizontal, .vertical]) {
-        DrawableView(SVGMOCData.bunnyContainer)
+        DrawableView(SVGMOCData.circleContainer)
             .frame(width: 800 * scaleFactor, height: 800 * scaleFactor)
 
     }.frame(width: 800, height: 600).gesture(

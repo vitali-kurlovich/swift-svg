@@ -8,6 +8,8 @@ public enum DrawableGroup: Equatable, Sendable {}
 
 public enum DrawablePath: Equatable, Sendable {}
 
+public enum DrawableCircle: Equatable, Sendable {}
+
 public extension Drawable {
     var isGroup: Bool {
         isTypeOf(DrawableGroup.self)
@@ -31,5 +33,18 @@ public extension Drawable {
                      childs: [Drawable] = []) -> Self
     {
         .init(DrawablePath.self, style: style, transform: transform, childs: childs)
+    }
+}
+
+public extension Drawable {
+    var isCircle: Bool {
+        isTypeOf(DrawableCircle.self)
+    }
+
+    static func circle(style: Style,
+                       transform: CGAffineTransform? = nil,
+                       childs: [Drawable] = []) -> Self
+    {
+        .init(DrawableCircle.self, style: style, transform: transform, childs: childs)
     }
 }

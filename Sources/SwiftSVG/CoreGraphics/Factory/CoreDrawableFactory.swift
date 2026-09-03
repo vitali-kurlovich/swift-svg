@@ -38,6 +38,17 @@ public struct CoreDrawableFactory: DrawableFactory {
 
         return drawable
     }
+
+    public func circleDrawable(_ circle: Circle, style: Style, transform: CGAffineTransform?) -> Drawable {
+        var drawable = Drawable.circle(
+            style: style,
+            transform: transform,
+        )
+
+        drawable[Circle.self] = circle
+
+        return drawable
+    }
 }
 
 public extension CoreDrawableFactory {

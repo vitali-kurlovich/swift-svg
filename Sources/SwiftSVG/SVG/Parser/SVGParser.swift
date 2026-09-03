@@ -80,17 +80,22 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
 
         switch elementName {
         case SvgTag.name:
-            let root = SvgTag(attributes: attributeDict)
-            // self.root = root
-            stack.append(root)
+            stack.append(SvgTag(attributes: attributeDict))
 
         case GTag.name:
-            let g = GTag(attributes: attributeDict)
-            stack.append(g)
+            stack.append(GTag(attributes: attributeDict))
 
         case PathTag.name:
-            let path = PathTag(attributes: attributeDict)
-            stack.append(path)
+            stack.append(PathTag(attributes: attributeDict))
+
+        case CircleTag.name:
+            stack.append(CircleTag(attributes: attributeDict))
+
+        case DefsTag.name:
+            stack.append(DefsTag(attributes: attributeDict))
+
+        case UseTag.name:
+            stack.append(UseTag(attributes: attributeDict))
 
         default:
             break
@@ -110,37 +115,40 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
             self.root = root
 
         case GTag.name:
-            guard let g = stack.popLast() as? GTag else {
-                assertionFailure()
-                return
-            }
-
-            guard var parent = stack.popLast() else {
-                assertionFailure()
-                return
-            }
-            parent.childs.append(g)
-
-            stack.append(parent)
+            append(tag: GTag.self)
 
         case PathTag.name:
-            guard let path = stack.popLast() as? PathTag else {
-                assertionFailure()
-                return
-            }
+            append(tag: PathTag.self)
 
-            guard var parent = stack.popLast() else {
-                assertionFailure()
-                return
-            }
-            parent.childs.append(path)
+        case CircleTag.name:
+            append(tag: CircleTag.self)
 
-            stack.append(parent)
+        case DefsTag.name:
+            append(tag: DefsTag.self)
+
+        case UseTag.name:
+            append(tag: UseTag.self)
 
         default:
             break
         }
     }
+
+    private func append<T: SVGElement>(tag _: T.Type) {
+        guard let tag = stack.popLast() as? T else {
+            assertionFailure()
+            return
+        }
+
+        guard var parent = stack.popLast() else {
+            assertionFailure()
+            return
+        }
+        parent.childs.append(tag)
+
+        stack.append(parent)
+    }
+
     /*
      func parser(_: XMLParser, didStartMappingPrefix prefix: String, toURI namespaceURI: String) {
          logger?.debug("\(#function) didStartMappingPrefix:\(prefix), toURI: \(namespaceURI)")

@@ -31,6 +31,12 @@ public struct Drawable: Equatable, Sendable {
 }
 
 public extension Drawable {
+    var id: String? {
+        attributes["id"] as? String
+    }
+}
+
+public extension Drawable {
     init<T: Equatable & Sendable>(
         _: T.Type,
         style: Style = .default,

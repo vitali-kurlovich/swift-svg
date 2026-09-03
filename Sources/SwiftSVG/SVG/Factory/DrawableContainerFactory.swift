@@ -44,6 +44,12 @@ private extension DrawableContainerFactory {
             return dr
         }
 
+        if let tag = tag as? CircleTag {
+            var dr = factory.circleDrawable(Circle(cx: tag.cx, cy: tag.cy, r: tag.r), style: .init(style), transform: transform)
+            dr.childs = childs
+            return dr
+        }
+
         if tag is GTag {
             var dr = factory.groupDrawable(style: .init(style), transform: transform)
             dr.childs = childs

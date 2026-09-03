@@ -10,17 +10,33 @@ enum SVGMOCData {
             factory: CoreDrawableFactory(options: [.cgPath]),
         )
 
+        let parser = SVGParser()
+
+        let bunnyData = bunnySvg.data(using: .utf8)!
+
+        let document = parser.parse(data: bunnyData)!
+
         return factory.drawable(from: document)
     }
 
-    static var document: SvgDocument {
+    static var circleContainer: DrawableContainer {
+        let factory = DrawableContainerFactory(
+            factory: CoreDrawableFactory(options: [.cgPath]),
+        )
+
         let parser = SVGParser()
 
-        return parser.parse(data: bunnyData)!
-    }
+        let circleSvg = """
+        <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50%" cy="50%" r="50"  />
+        </svg>
+        """
 
-    static var bunnyData: Data {
-        bunnySvg.data(using: .utf8)!
+        let circleData = circleSvg.data(using: .utf8)!
+
+        let document = parser.parse(data: circleData)!
+
+        return factory.drawable(from: document)
     }
 }
 

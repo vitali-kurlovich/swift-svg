@@ -32,7 +32,12 @@ public struct Drawable: Equatable, Sendable {
 
 public extension Drawable {
     var id: String? {
-        attributes["id"] as? String
+        get {
+            attributes["id"] as? String
+        }
+        set {
+            attributes["id"] = newValue
+        }
     }
 }
 

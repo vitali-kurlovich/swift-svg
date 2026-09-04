@@ -88,6 +88,9 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
         case PathTag.name:
             stack.append(PathTag(attributes: attributeDict))
 
+        case RectTag.name:
+            stack.append(RectTag(attributes: attributeDict))
+
         case CircleTag.name:
             stack.append(CircleTag(attributes: attributeDict))
 
@@ -122,6 +125,9 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
 
         case PathTag.name:
             append(tag: PathTag.self)
+
+        case RectTag.name:
+            append(tag: RectTag.self)
 
         case CircleTag.name:
             append(tag: CircleTag.self)

@@ -18,6 +18,8 @@ public struct DrawablePath: DrawableType, Equatable, Sendable { public init() {}
 
 public struct DrawableCircle: DrawableType, Equatable, Sendable { public init() {}}
 
+public struct DrawableRect: DrawableType, Equatable, Sendable { public init() {}}
+
 public extension Drawable {
     var isGroup: Bool {
         isTypeOf(DrawableGroup.self)
@@ -41,6 +43,21 @@ public extension Drawable {
                      childs: [Drawable] = []) -> Self
     {
         .init(DrawablePath.self, style: style, transform: transform, childs: childs)
+    }
+}
+
+// DrawableRect
+
+public extension Drawable {
+    var isRect: Bool {
+        isTypeOf(DrawableRect.self)
+    }
+
+    static func rect(style: Style,
+                     transform: CGAffineTransform? = nil,
+                     childs: [Drawable] = []) -> Self
+    {
+        .init(DrawableRect.self, style: style, transform: transform, childs: childs)
     }
 }
 

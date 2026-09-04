@@ -45,6 +45,33 @@ extension DrawableRender {
             draw(context: context, path: path, style: style)
         }
 
+        if let rect = drawable[Rect.self] {
+            let resolver = LengthUnitResolver(bounds: bounds)
+
+            let (x, y) = resolver.resolve(x: rect.x, y: rect.y)
+            let (width, height) = resolver.resolve(
+                width: rect.width,
+                height: rect.height,
+            )
+            let rx = resolver.resolve(rect.rx)
+            let ry = resolver.resolve(rect.ry)
+
+            let rect = CGRect(x: x, y: y, width: width, height: height)
+
+            let path = if rx == 0, ry == 0 {
+                CGPath(rect: rect, transform: nil)
+            } else {
+                CGPath(
+                    roundedRect: rect,
+                    cornerWidth: rx,
+                    cornerHeight: ry,
+                    transform: nil,
+                )
+            }
+
+            draw(context: context, path: path, style: style)
+        }
+
         if let circle = drawable[Circle.self] {
             let resolver = LengthUnitResolver(bounds: bounds)
 

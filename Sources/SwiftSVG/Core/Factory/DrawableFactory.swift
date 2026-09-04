@@ -11,6 +11,7 @@ public protocol DrawableFactory {
 
     func pathDrawable(id: String?, commands: some Sequence<PathCommand>, style: Style, transform: CGAffineTransform?) -> Drawable
 
+    func rectDrawable(id: String?, _ rect: Rect, style: Style, transform: CGAffineTransform?) -> Drawable
     func circleDrawable(id: String?, _ circle: Circle, style: Style, transform: CGAffineTransform?) -> Drawable
     func ellipseDrawable(id: String?, _ ellipse: Ellipse, style: Style, transform: CGAffineTransform?) -> Drawable
 }

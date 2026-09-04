@@ -18,7 +18,7 @@ public struct CoreDrawableFactory: DrawableFactory {
     public func useDrawable(id: String?, _ use: Use, style: Style, transform: CGAffineTransform?) -> Drawable {
         var drawable = Drawable.use(style: style, transform: transform)
         drawable[Use.self] = use
-        drawable.attributes["id"] = id
+        drawable.id = id
         return drawable
     }
 
@@ -28,7 +28,7 @@ public struct CoreDrawableFactory: DrawableFactory {
             transform: transform,
         )
 
-        drawable.attributes["id"] = id
+        drawable.id = id
 
         if options.contains(.cgPath),
            let path = CGPath.path(with: commands),
@@ -48,12 +48,23 @@ public struct CoreDrawableFactory: DrawableFactory {
         return drawable
     }
 
+    public func rectDrawable(id: String?, _ rect: Rect, style: Style, transform: CGAffineTransform?) -> Drawable {
+        var drawable = Drawable.rect(
+            style: style,
+            transform: transform,
+        )
+        drawable.id = id
+        drawable[Rect.self] = rect
+
+        return drawable
+    }
+
     public func circleDrawable(id: String?, _ circle: Circle, style: Style, transform: CGAffineTransform?) -> Drawable {
         var drawable = Drawable.circle(
             style: style,
             transform: transform,
         )
-        drawable.attributes["id"] = id
+        drawable.id = id
         drawable[Circle.self] = circle
 
         return drawable
@@ -65,7 +76,7 @@ public struct CoreDrawableFactory: DrawableFactory {
             transform: transform,
         )
 
-        drawable.attributes["id"] = id
+        drawable.id = id
         drawable[Ellipse.self] = ellipse
 
         return drawable

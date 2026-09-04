@@ -12,9 +12,9 @@ enum SVGMOCData {
 
         let parser = SVGParser()
 
-        let bunnyData = bunnySvg.data(using: .utf8)!
+        let data = bunnySvg.data(using: .utf8)!
 
-        let document = parser.parse(data: bunnyData)!
+        let document = parser.parse(data: data)!
 
         return factory.drawable(from: document)
     }
@@ -26,15 +26,39 @@ enum SVGMOCData {
 
         let parser = SVGParser()
 
-        let circleSvg = """
+        let svg = """
         <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50%" cy="50%" r="50"  fill="blue" />
+          <circle cx="50%" cy="50%" r="50" fill="blue" />
         </svg>
         """
 
-        let circleData = circleSvg.data(using: .utf8)!
+        let data = svg.data(using: .utf8)!
 
-        let document = parser.parse(data: circleData)!
+        let document = parser.parse(data: data)!
+
+        return factory.drawable(from: document)
+    }
+
+    static var rectContainer: DrawableContainer {
+        let factory = DrawableContainerFactory(
+            factory: CoreDrawableFactory(options: [.cgPath]),
+        )
+
+        let parser = SVGParser()
+
+        let svg = """
+        <svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Regular rectangle -->
+          <rect width="100" height="100" stroke="green" />
+
+          <!-- Rounded corner rectangle -->
+          <rect x="120" width="100" height="100" rx="15" fill="blue" />
+        </svg>
+        """
+
+        let data = svg.data(using: .utf8)!
+
+        let document = parser.parse(data: data)!
 
         return factory.drawable(from: document)
     }
@@ -46,7 +70,7 @@ enum SVGMOCData {
 
         let parser = SVGParser()
 
-        let circleSvg = """
+        let svg = """
             <svg viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg">
               <circle id="myCircle" cx="5" cy="5" r="4" />
               <use href="#myCircle" x="10" fill="blue" />
@@ -54,9 +78,9 @@ enum SVGMOCData {
             </svg>
         """
 
-        let circleData = circleSvg.data(using: .utf8)!
+        let data = svg.data(using: .utf8)!
 
-        let document = parser.parse(data: circleData)!
+        let document = parser.parse(data: data)!
 
         return factory.drawable(from: document)
     }

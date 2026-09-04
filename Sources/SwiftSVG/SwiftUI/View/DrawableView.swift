@@ -80,7 +80,7 @@ private extension DrawableView {
     var scaleFactor: CGFloat = 1.0
 
     ScrollView([.horizontal, .vertical]) {
-        DrawableView(SVGMOCData.bunnyContainer)
+        DrawableView(SVGMOCData.rectContainer)
             .frame(width: 800 * scaleFactor, height: 800 * scaleFactor)
 
     }.frame(width: 800, height: 600).gesture(

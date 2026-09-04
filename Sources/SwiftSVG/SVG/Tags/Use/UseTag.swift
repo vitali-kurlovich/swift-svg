@@ -2,8 +2,6 @@
 //  Created by Kurlovich Vitali on 9/2/26.
 //
 
-import struct CoreGraphics.CGFloat
-
 public struct UseTag: SVGMutableElement {
     @inlinable
     public static var name: String {
@@ -21,33 +19,38 @@ public struct UseTag: SVGMutableElement {
 
 public extension UseTag {
     var href: String? {
-        attributes["href"]
+        guard let href = attributes["href"] else {
+            return nil
+        }
+
+        return String(href.dropFirst())
     }
 }
 
 public extension UseTag {
-    var x: CGFloat {
+    var x: LengthUnit {
         parseValue(key: "x")
     }
 
-    var y: CGFloat {
+    var y: LengthUnit {
         parseValue(key: "y")
     }
 
-    var width: CGFloat {
+    var width: LengthUnit {
         parseValue(key: "width")
     }
 
-    var height: CGFloat {
+    var height: LengthUnit {
         parseValue(key: "height")
     }
 }
 
 private extension UseTag {
-    func parseValue(key: String, default value: CGFloat = 0) -> CGFloat {
+    func parseValue(key: String, default value: LengthUnit = .zero) -> LengthUnit {
         guard let string = attributes[key] else {
             return value
         }
-        return CGFloat(Double(string) ?? value)
+
+        return SVGLengthUnitResolver().unit(from: string) ?? value
     }
 }

@@ -4,11 +4,19 @@
 
 import CoreGraphics
 
-public enum DrawableGroup: Equatable, Sendable {}
+public protocol DrawableType: Equatable, Sendable {
+    init()
+}
 
-public enum DrawablePath: Equatable, Sendable {}
+public struct DrawableUncknown: DrawableType, Equatable, Sendable { public init() {}}
 
-public enum DrawableCircle: Equatable, Sendable {}
+public struct DrawableGroup: DrawableType, Equatable, Sendable { public init() {}}
+
+public struct DrawableUse: DrawableType, Equatable, Sendable { public init() {}}
+
+public struct DrawablePath: DrawableType, Equatable, Sendable { public init() {}}
+
+public struct DrawableCircle: DrawableType, Equatable, Sendable { public init() {}}
 
 public extension Drawable {
     var isGroup: Bool {
@@ -46,5 +54,18 @@ public extension Drawable {
                        childs: [Drawable] = []) -> Self
     {
         .init(DrawableCircle.self, style: style, transform: transform, childs: childs)
+    }
+}
+
+public extension Drawable {
+    var isUse: Bool {
+        isTypeOf(DrawableUse.self)
+    }
+
+    static func use(style: Style,
+                    transform: CGAffineTransform? = nil,
+                    childs: [Drawable] = []) -> Self
+    {
+        .init(DrawableUse.self, style: style, transform: transform, childs: childs)
     }
 }

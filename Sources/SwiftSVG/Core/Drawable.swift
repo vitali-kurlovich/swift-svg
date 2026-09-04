@@ -5,7 +5,7 @@
 import CoreGraphics
 
 public struct Drawable: Equatable, Sendable {
-    public let type: String
+    public let type: any DrawableType
     public var style: Style
     public var transform: CGAffineTransform?
     public var childs: [Drawable] = []
@@ -14,8 +14,8 @@ public struct Drawable: Equatable, Sendable {
     var attributesKeys: Set<String> = []
 
     public init(
-        type: String,
-        style: Style = .default,
+        type: any DrawableType,
+        style: Style,
         transform: CGAffineTransform? = nil,
         childs: [Drawable] = [],
     ) {
@@ -37,37 +37,44 @@ public extension Drawable {
 }
 
 public extension Drawable {
-    init<T: Equatable & Sendable>(
-        _: T.Type,
-        style: Style = .default,
-        transform: CGAffineTransform? = nil,
-        childs: [Drawable] = [],
-    ) {
-        self.init(type: String(describing: T.self), style: style, transform: transform, childs: childs)
-    }
+    func find(by id: String) -> Drawable? {
+        if self.id == id {
+            return self
+        }
 
-    init<D: Equatable & Sendable>(
-        _ data: D,
-        style: Style = .default,
+        for child in childs {
+            if let drawable = child.find(by: id) {
+                return drawable
+            }
+        }
+
+        return nil
+    }
+}
+
+public extension Drawable {
+    init<T: DrawableType>(
+        _: T.Type,
+        style: Style,
         transform: CGAffineTransform? = nil,
         childs: [Drawable] = [],
     ) {
-        self.init(D.self, style: style, transform: transform, childs: childs)
-        self[D.self] = data
+        self.init(type: T(), style: style, transform: transform, childs: childs)
     }
 
     func isTypeOf<T: Equatable>(_: T.Type) -> Bool {
-        String(describing: T.self) == type
+        type is T
     }
 }
 
 extension Drawable {
     func isEqual(to other: Self) -> Bool {
-        guard type == other.type,
-              attributesKeys == other.attributesKeys,
-              style == other.style,
-              transform == other.transform,
-              childs.count == other.childs.count
+        guard
+            attributesKeys == other.attributesKeys,
+            style == other.style,
+            transform == other.transform,
+            childs.count == other.childs.count,
+            type.isEqual(other.type)
         else {
             return false
         }

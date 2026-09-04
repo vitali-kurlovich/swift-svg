@@ -4,10 +4,10 @@
 
 public struct Style: Hashable, Sendable {
     public var fill: Fill
-    public var stroke: Stroke
+    public var stroke: Stroke?
 
     @inlinable
-    public init(fill: Fill = .default, stroke: Stroke = .default) {
+    public init(fill: Fill = .default, stroke: Stroke? = nil) {
         self.fill = fill
         self.stroke = stroke
     }
@@ -21,10 +21,10 @@ public extension Style {
 
 public extension Style {
     var isOpaque: Bool {
-        fill.isOpaque && stroke.isOpaque
+        fill.isOpaque && (stroke?.isOpaque ?? false)
     }
 
     var isСlear: Bool {
-        fill.isСlear && stroke.isСlear
+        fill.isСlear && (stroke?.isСlear ?? true)
     }
 }

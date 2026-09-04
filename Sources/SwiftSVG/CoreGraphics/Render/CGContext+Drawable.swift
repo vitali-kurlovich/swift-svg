@@ -26,7 +26,7 @@ private struct DrawableRender {
 
 extension DrawableRender {
     func draw(context: CGContext, drawable: Drawable) {
-        var style = drawable.style
+        let style = drawable.style
 
         if drawable.childs.isEmpty, style.isСlear {
             return
@@ -94,9 +94,7 @@ extension DrawableRender {
                 let transform = CGAffineTransform(translationX: x, y: y)
                 context.concatenate(transform)
 
-                var style = drawable.style
-
-                refDrawable.style = style
+                refDrawable.style = drawable.style
                 draw(context: context, drawable: refDrawable)
                 context.restoreGState()
             }
@@ -123,11 +121,13 @@ private extension DrawableRender {
         let rule = fill.rule
 
         context.setFill(fill)
-        context.setStroke(stroke)
+        if let stroke {
+            context.setStroke(stroke)
+        }
 
         switch rule {
         case .nonzero:
-            if fill.isСlear == false, stroke.isСlear == false {
+            if fill.isСlear == false, stroke?.isСlear == false {
                 mode = .fillStroke
             } else if fill.isСlear == false {
                 mode = .fill
@@ -137,7 +137,7 @@ private extension DrawableRender {
             }
 
         case .evenodd:
-            if fill.isСlear == false, stroke.isСlear == false {
+            if fill.isСlear == false, stroke?.isСlear == false {
                 mode = .eoFillStroke
             } else if fill.isСlear == false {
                 mode = .eoFill

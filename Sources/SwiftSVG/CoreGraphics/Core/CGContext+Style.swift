@@ -19,6 +19,8 @@ public extension CGContext {
 
     func setFillShading(_ shading: Shading) {
         switch shading {
+        case .none:
+            setFillColor(CGColor.clear)
         case let .color(color):
             setFillColor(CGColor.color(from: color))
         }
@@ -40,6 +42,8 @@ public extension CGContext {
 
     func setStrokeShading(_ shading: Shading) {
         switch shading {
+        case .none:
+            setStrokeColor(CGColor.clear)
         case let .color(color):
             setStrokeColor(CGColor.color(from: color))
         }

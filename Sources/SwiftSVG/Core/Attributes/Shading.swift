@@ -3,6 +3,7 @@
 //
 
 public enum Shading: Hashable, Sendable {
+    case none
     case color(SolidColor)
 }
 
@@ -15,6 +16,8 @@ public extension Shading {
 public extension Shading {
     var isOpaque: Bool {
         switch self {
+        case .none:
+            false
         case let .color(color):
             color.isOpaque
         }
@@ -22,6 +25,8 @@ public extension Shading {
 
     var isСlear: Bool {
         switch self {
+        case .none:
+            true
         case let .color(color):
             color.isСlear
         }

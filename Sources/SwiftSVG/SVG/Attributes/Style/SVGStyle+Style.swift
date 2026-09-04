@@ -9,7 +9,10 @@ public extension Style {
 }
 
 public extension Stroke {
-    init(_ svg: SVGStyle) {
+    init?(_ svg: SVGStyle) {
+        if svg.isEmpty {
+            return nil
+        }
         self.init(
             opacity: svg.strokeOpacity,
             shading: svg.stroke,
@@ -67,7 +70,7 @@ public extension SVGStyle {
         let resolver = SVGColorResolver()
 
         guard let stroke = self["stroke"], let color = resolver.color(from: stroke) else {
-            return .default
+            return .none
         }
 
         return .color(color)

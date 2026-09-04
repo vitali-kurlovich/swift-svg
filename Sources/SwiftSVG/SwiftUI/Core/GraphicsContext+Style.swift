@@ -16,6 +16,8 @@ public extension GraphicsContext.Shading {
 
     init(_ shading: Shading) {
         switch shading {
+        case .none:
+            self = .color(Color.clear)
         case let .color(color):
             let color = Color(color)
             self = .color(color)

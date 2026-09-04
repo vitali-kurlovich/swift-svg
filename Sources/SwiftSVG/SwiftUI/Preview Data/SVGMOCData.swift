@@ -28,8 +28,30 @@ enum SVGMOCData {
 
         let circleSvg = """
         <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50%" cy="50%" r="50"  />
+          <circle cx="50%" cy="50%" r="50"  fill="blue" />
         </svg>
+        """
+
+        let circleData = circleSvg.data(using: .utf8)!
+
+        let document = parser.parse(data: circleData)!
+
+        return factory.drawable(from: document)
+    }
+
+    static var useContainer: DrawableContainer {
+        let factory = DrawableContainerFactory(
+            factory: CoreDrawableFactory(options: [.cgPath]),
+        )
+
+        let parser = SVGParser()
+
+        let circleSvg = """
+            <svg viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg">
+              <circle id="myCircle" cx="5" cy="5" r="4" />
+              <use href="#myCircle" x="10" fill="blue" />
+              <use href="#myCircle" x="20" fill="white" stroke="red" />
+            </svg>
         """
 
         let circleData = circleSvg.data(using: .utf8)!

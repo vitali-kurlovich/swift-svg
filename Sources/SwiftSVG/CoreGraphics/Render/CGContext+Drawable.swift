@@ -5,6 +5,7 @@
 import struct CoreGraphics.CGAffineTransform
 import class CoreGraphics.CGContext
 import class CoreGraphics.CGPath
+import enum CoreGraphics.CGPathDrawingMode
 import enum CoreGraphics.CGPathFillRule
 import struct CoreGraphics.CGRect
 
@@ -13,36 +14,19 @@ public extension CGContext {
         _ drawable: Drawable,
         bounds: CGRect,
     ) {
-        let render = DrawableRender(bounds: bounds)
+        let render = DrawableRender(bounds: bounds, root: drawable)
         render.draw(context: self, drawable: drawable)
     }
 }
 
 private struct DrawableRender {
     let bounds: CGRect
+    let root: Drawable
 }
 
 extension DrawableRender {
-    func draw(context: CGContext, path: CGPath, style: Style) {
-        context.addPath(path)
-
-        let fill = style.fill
-
-        if fill.isСlear == false {
-            context.setFill(fill)
-            context.fillPath(using: CGPathFillRule.rule(from: fill))
-        }
-
-        let stroke = style.stroke
-
-        if stroke.isСlear == false {
-            context.setStroke(stroke)
-            context.strokePath()
-        }
-    }
-
     func draw(context: CGContext, drawable: Drawable) {
-        let style = drawable.style
+        var style = drawable.style
 
         if drawable.childs.isEmpty, style.isСlear {
             return
@@ -62,8 +46,6 @@ extension DrawableRender {
         }
 
         if let circle = drawable[Circle.self] {
-            print(circle)
-
             let resolver = LengthUnitResolver(bounds: bounds)
 
             let (x, y) = resolver.resolve(x: circle.cx, y: circle.cy)
@@ -80,7 +62,44 @@ extension DrawableRender {
                 ellipseIn: rect,
                 transform: nil,
             )
+
             draw(context: context, path: path, style: style)
+        }
+
+        if let ellipse = drawable[Ellipse.self] {
+            let resolver = LengthUnitResolver(bounds: bounds)
+            let (x, y) = resolver.resolve(x: ellipse.cx, y: ellipse.cy)
+            let (rx, ry) = resolver.resolve(width: ellipse.rx, height: ellipse.ry)
+
+            let rect = CGRect(
+                x: x - rx,
+                y: y - ry,
+                width: 2 * rx,
+                height: 2 * ry,
+            )
+
+            let path = CGPath(
+                ellipseIn: rect,
+                transform: nil,
+            )
+            draw(context: context, path: path, style: style)
+        }
+
+        if let use = drawable[Use.self] {
+            if var refDrawable = root.find(by: use.href) {
+                let resolver = LengthUnitResolver(bounds: bounds)
+                let (x, y) = resolver.resolve(x: use.x, y: use.y)
+
+                context.saveGState()
+                let transform = CGAffineTransform(translationX: x, y: y)
+                context.concatenate(transform)
+
+                var style = drawable.style
+
+                refDrawable.style = style
+                draw(context: context, drawable: refDrawable)
+                context.restoreGState()
+            }
         }
 
         draw(context: context, drawables: drawable.childs)
@@ -90,5 +109,44 @@ extension DrawableRender {
         for drawable in drawables {
             draw(context: context, drawable: drawable)
         }
+    }
+}
+
+private extension DrawableRender {
+    func draw(context: CGContext, path: CGPath, style: Style) {
+        guard path.isEmpty == false, style.isСlear == false else { return }
+
+        let fill = style.fill
+        let stroke = style.stroke
+
+        let mode: CGPathDrawingMode
+        let rule = fill.rule
+
+        context.setFill(fill)
+        context.setStroke(stroke)
+
+        switch rule {
+        case .nonzero:
+            if fill.isСlear == false, stroke.isСlear == false {
+                mode = .fillStroke
+            } else if fill.isСlear == false {
+                mode = .fill
+
+            } else {
+                mode = .stroke
+            }
+
+        case .evenodd:
+            if fill.isСlear == false, stroke.isСlear == false {
+                mode = .eoFillStroke
+            } else if fill.isСlear == false {
+                mode = .eoFill
+            } else {
+                mode = .stroke
+            }
+        }
+
+        context.addPath(path)
+        context.drawPath(using: mode)
     }
 }

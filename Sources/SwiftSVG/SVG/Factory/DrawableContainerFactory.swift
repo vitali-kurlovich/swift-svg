@@ -12,7 +12,7 @@ public struct DrawableContainerFactory<Factory: DrawableFactory> {
         self.factory = factory
     }
 
-    func drawable(from document: SvgDocument) -> DrawableContainer {
+    public func drawable(from document: SvgDocument) -> DrawableContainer {
         drawable(from: document.svg)
     }
 }
@@ -29,35 +29,54 @@ private extension DrawableContainerFactory {
         let style = tag.style.merging(style)
         let transform = tag.transform.map { CGAffineTransform($0) }
 
+        let id = tag.id
+
         let childs = tag.childs.map {
             drawable(with: $0, parentStyle: style)
         }
 
         if let tag = tag as? PathTag {
-            var dr = factory.pathDrawable(
-                commands: tag.commands,
-                style: .init(style),
-                transform: transform,
-            )
+            var dr = factory.pathDrawable(id: id,
+                                          commands: tag.commands,
+                                          style: .init(style),
+                                          transform: transform)
 
             dr.childs = childs
             return dr
         }
 
         if let tag = tag as? CircleTag {
-            var dr = factory.circleDrawable(Circle(cx: tag.cx, cy: tag.cy, r: tag.r), style: .init(style), transform: transform)
+            var dr = factory.circleDrawable(id: id, Circle(cx: tag.cx, cy: tag.cy, r: tag.r), style: .init(style), transform: transform)
+            dr.childs = childs
+            return dr
+        }
+
+        if let tag = tag as? EllipseTag {
+            var dr = factory.ellipseDrawable(id: id,
+                                             Ellipse(cx: tag.cx, cy: tag.cy, rx: tag.rx, ry: tag.ry),
+                                             style: .init(style),
+                                             transform: transform)
             dr.childs = childs
             return dr
         }
 
         if tag is GTag {
-            var dr = factory.groupDrawable(style: .init(style), transform: transform)
+            var dr = factory.groupDrawable(id: id, style: .init(style), transform: transform)
+            dr.childs = childs
+            return dr
+        }
+
+        if let tag = tag as? UseTag, let href = tag.href, href.isEmpty == false {
+            var dr = factory.useDrawable(id: id,
+                                         Use(href: href, x: tag.x, y: tag.y),
+                                         style: .init(tag.style),
+                                         transform: transform)
             dr.childs = childs
             return dr
         }
 
         return .init(
-            type: tag.name,
+            type: DrawableUncknown(),
             style: .init(style),
             transform: transform,
             childs: childs,

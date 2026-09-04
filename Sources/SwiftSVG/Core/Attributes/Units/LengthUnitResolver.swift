@@ -42,7 +42,29 @@ public extension LengthUnitResolver {
         }
     }
 
+    func resolve(width: LengthUnit) -> CGFloat {
+        switch width {
+        case let .pixel(value):
+            value
+        case let .percent(value):
+            bounds.width * value / 100.0
+        }
+    }
+
+    func resolve(height: LengthUnit) -> CGFloat {
+        switch height {
+        case let .pixel(value):
+            value
+        case let .percent(value):
+            bounds.height * value / 100.0
+        }
+    }
+
     func resolve(x: LengthUnit, y: LengthUnit) -> (x: CGFloat, y: CGFloat) {
         (x: resolve(x: x), y: resolve(y: y))
+    }
+
+    func resolve(width: LengthUnit, height: LengthUnit) -> (width: CGFloat, height: CGFloat) {
+        (width: resolve(width: width), height: resolve(height: height))
     }
 }

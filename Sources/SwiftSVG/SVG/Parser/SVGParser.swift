@@ -91,6 +91,9 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
         case CircleTag.name:
             stack.append(CircleTag(attributes: attributeDict))
 
+        case EllipseTag.name:
+            stack.append(EllipseTag(attributes: attributeDict))
+
         case DefsTag.name:
             stack.append(DefsTag(attributes: attributeDict))
 
@@ -122,6 +125,9 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
 
         case CircleTag.name:
             append(tag: CircleTag.self)
+
+        case EllipseTag.name:
+            append(tag: EllipseTag.self)
 
         case DefsTag.name:
             append(tag: DefsTag.self)

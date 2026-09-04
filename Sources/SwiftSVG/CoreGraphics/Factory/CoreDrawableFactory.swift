@@ -15,11 +15,20 @@ public struct CoreDrawableFactory: DrawableFactory {
         self.options = options
     }
 
-    public func pathDrawable(commands: some Sequence<PathCommand>, style: Style, transform: CGAffineTransform?) -> Drawable {
+    public func useDrawable(id: String?, _ use: Use, style: Style, transform: CGAffineTransform?) -> Drawable {
+        var drawable = Drawable.use(style: style, transform: transform)
+        drawable[Use.self] = use
+        drawable.attributes["id"] = id
+        return drawable
+    }
+
+    public func pathDrawable(id: String?, commands: some Sequence<PathCommand>, style: Style, transform: CGAffineTransform?) -> Drawable {
         var drawable = Drawable.path(
             style: style,
             transform: transform,
         )
+
+        drawable.attributes["id"] = id
 
         if options.contains(.cgPath),
            let path = CGPath.path(with: commands),
@@ -39,13 +48,25 @@ public struct CoreDrawableFactory: DrawableFactory {
         return drawable
     }
 
-    public func circleDrawable(_ circle: Circle, style: Style, transform: CGAffineTransform?) -> Drawable {
+    public func circleDrawable(id: String?, _ circle: Circle, style: Style, transform: CGAffineTransform?) -> Drawable {
+        var drawable = Drawable.circle(
+            style: style,
+            transform: transform,
+        )
+        drawable.attributes["id"] = id
+        drawable[Circle.self] = circle
+
+        return drawable
+    }
+
+    public func ellipseDrawable(id: String?, _ ellipse: Ellipse, style: Style, transform: CGAffineTransform?) -> Drawable {
         var drawable = Drawable.circle(
             style: style,
             transform: transform,
         )
 
-        drawable[Circle.self] = circle
+        drawable.attributes["id"] = id
+        drawable[Ellipse.self] = ellipse
 
         return drawable
     }

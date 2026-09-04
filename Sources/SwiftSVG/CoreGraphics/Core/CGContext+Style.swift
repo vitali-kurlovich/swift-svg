@@ -28,7 +28,14 @@ public extension CGContext {
 public extension CGContext {
     func setStroke(_ stroke: Stroke) {
         setOpacity(stroke.opacity)
-        setFillShading(stroke.shading)
+        setStrokeShading(stroke.shading)
+
+        switch stroke.width.value {
+        case let .pixel(double):
+            setLineWidth(double)
+        case let .percent(double):
+            break
+        }
     }
 
     func setStrokeShading(_ shading: Shading) {
